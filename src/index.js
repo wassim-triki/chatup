@@ -13,7 +13,10 @@ const socket = require('socket.io');
 //middlewares
 app.use(express.json());
 
-const whitelist = ['http://localhost:3000', 'https://chatup-app.netlify.app'];
+const whitelist = [
+  'http://localhost:3000',
+  ' https://app-chatup.herokuapp.com',
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
