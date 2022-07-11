@@ -35,7 +35,6 @@ app.use('/api/auth/', authRoute);
 app.use('/api/users', usersRoute);
 
 app.use((req, res, next) => {
-  console.log('request url:', req.url);
   return res.status(404).json({ message: 'Bad request.' });
 });
 //
@@ -47,6 +46,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
   // Handle React routing, return all requests to React app
   app.get('*', (req, res) => {
+    console.log('routes to react', req.url);
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
