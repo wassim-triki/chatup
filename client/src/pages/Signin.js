@@ -62,7 +62,7 @@ const Signin = () => {
         return;
       }
       const url = '/api/auth/signin';
-      const resp = await axios.post(url, data);
+      const resp = await axios.post(url, data, { withCredentials: true });
       const { user } = resp.data;
       loginUser(user);
       toast(resp.data.message, { type: 'success' });
