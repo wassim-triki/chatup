@@ -34,17 +34,17 @@ app.use(bodyParser.json());
 app.use('/api/auth/', authRoute);
 app.use('/api/users', usersRoute);
 
-app.use((req, res, next) => {
-  return res.status(404).json({ message: 'Bad request.' });
-});
-//
+// app.use((req, res, next) => {
+//   return res.status(404).json({ message: 'Bad request.' });
+// });
+// //
 //db connection
 connection();
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
+  console.log('path.join: ', path.join(__dirname, 'client/build'));
   // Handle React routing, return all requests to React app
   app.get('*', (req, res) => {
     console.log('routes to react', req.url);
