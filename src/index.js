@@ -17,7 +17,6 @@ app.use(express.json());
 const whitelist = ['http://localhost:3000', 'https://app-chatup.herokuapp.com'];
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log('origin:', origin);
     if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -42,7 +41,6 @@ connection();
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, '..', 'client/build')));
-  // console.log('path.join: ', path.join(__dirname, 'client/build'));
 
   //log dir content
   // fs.readdir(
@@ -62,7 +60,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const port = process.env.PORT || 8080;
-const server = app.listen(port, () => console.log(`Listening on port ${port}`));
+const server = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+  if (!process.env.NODE_ENV) {
+    const host = `http://localhost:${8080}`;
+    console.log(`Running on ${host}`);
+  }
+});
 const io = socket(server, {
   cors: {
     origin: whitelist,
