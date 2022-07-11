@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Input from '../components/Input';
 import { ToastContainer, toast } from 'react-toastify';
-import axios from '../api/axiosConfig';
+// import axios from '../api/axiosConfig';
+import axios from 'axios';
 import validate from '../helpers/validate';
 import FormButton from '../components/FormButton';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -60,7 +61,7 @@ const Signin = () => {
       if (Object.keys(errors).length > 0) {
         return;
       }
-      const url = '/auth/signin';
+      const url = '/api/auth/signin';
       const resp = await axios.post(url, data);
       const { user } = resp.data;
       loginUser(user);
