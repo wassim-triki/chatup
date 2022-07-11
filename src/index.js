@@ -35,7 +35,7 @@ app.use('/api/auth/', authRoute);
 app.use('/api/users', usersRoute);
 
 app.use((req, res, next) => {
-  console.log('request:', req);
+  console.log('request url:', req.url);
   return res.status(404).json({ message: 'Bad request.' });
 });
 //
