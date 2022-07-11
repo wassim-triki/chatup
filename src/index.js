@@ -14,11 +14,12 @@ const socket = require('socket.io');
 app.use(express.json());
 
 const whitelist = [
-  'http://localhost:3000/',
-  ' https://app-chatup.herokuapp.com/',
+  'http://localhost:3000',
+  ' https://app-chatup.herokuapp.com',
 ];
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log(origin);
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
