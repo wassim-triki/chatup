@@ -32,7 +32,7 @@ export const UserProvider = ({ children }) => {
     acceptRequestNotification,
     acceptedRequestNotification,
   } = useSocket();
-  const { data, error, loading } = useFetch('/auth/me');
+  const { data, error, loading } = useFetch('/api/auth/me');
   const navigate = useNavigate();
 
   useEffect(() => {
