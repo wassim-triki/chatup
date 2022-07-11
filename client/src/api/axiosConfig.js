@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL =
-  process.env.REACT_APP_PRODUCTION_API || 'http://localhost:8080/api';
+  'https://app-chatup.herokuapp.com' || 'http://localhost:8080/api';
 
 const instance = axios.create({
   baseURL: BASE_URL,
