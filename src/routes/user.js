@@ -13,9 +13,8 @@ const {
 } = require('../controllers/user');
 const authentication = require('../middlewares/authentication');
 
-// router.get('/', getAllUsers);
+router.get('/', getAllUsers);
 router.get('/', authentication, searchUsers);
-router.get('/', searchUsers);
 router.put('/sendRequest', authentication, sendRequest);
 router.put('/acceptRequest', authentication, acceptRequest);
 router.put('/deleteAllRequests', authentication, deleteAllRequests);
