@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useAuth from '../context/UserContext/UserState';
 import axios from '../api/axiosConfig';
+// import axios from 'axios';
 
 const useFetch = (url, dependencies = []) => {
   const [error, setError] = useState('');

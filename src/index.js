@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+var fs = require('fs');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -13,13 +14,10 @@ const socket = require('socket.io');
 //middlewares
 app.use(express.json());
 
-const whitelist = [
-  'http://localhost:3000',
-  ' https://app-chatup.herokuapp.com',
-];
+const whitelist = ['http://localhost:3000', 'https://app-chatup.herokuapp.com'];
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log(origin);
+    console.log('origin:', origin);
     if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -43,12 +41,23 @@ connection();
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build')));
-  console.log('path.join: ', path.join(__dirname, 'client/build'));
+  app.use(express.static(path.join(__dirname, '..', 'client/build')));
+  // console.log('path.join: ', path.join(__dirname, 'client/build'));
+
+  //log dir content
+  // fs.readdir(
+  //   path.join(__dirname, '..', 'client/build'),
+  //   function (err, images) {
+  //     if (err) {
+  //       console.log('err:', err);
+  //       return;
+  //     }
+  //     console.log('not err:', images);
+  //   }
+  // );
   // Handle React routing, return all requests to React app
   app.get('*', (req, res) => {
-    console.log('routes to react', req.url);
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'client/build', 'index.html'));
   });
 }
 

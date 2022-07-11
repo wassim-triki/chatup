@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Input from '../components/Input';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from '../api/axiosConfig';
+// import axios from 'axios';
 import validate from '../helpers/validate';
 import FormButton from '../components/FormButton';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
