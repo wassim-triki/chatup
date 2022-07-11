@@ -46,13 +46,16 @@ if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
   // console.log('path.join: ', path.join(__dirname, 'client/build'));
-  fs.readdir(path.join(__dirname), function (err, images) {
-    if (err) {
-      console.log('err:', err);
-      return;
+  fs.readdir(
+    path.join(__dirname, '..', 'client/build'),
+    function (err, images) {
+      if (err) {
+        console.log('err:', err);
+        return;
+      }
+      console.log('not err:', images);
     }
-    console.log('not err:', images);
-  });
+  );
   // Handle React routing, return all requests to React app
   app.get('*', (req, res) => {
     console.log('routes to react', req.url);
