@@ -45,8 +45,8 @@ connection();
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
-  console.log('path.join: ', path.join(__dirname, 'client/build'));
-  fs.readdir(path.join(__dirname, 'client/build'), function (err, images) {
+  // console.log('path.join: ', path.join(__dirname, 'client/build'));
+  fs.readdir(path.join(__dirname), function (err, images) {
     if (err) {
       console.log('err:', err);
       return;
