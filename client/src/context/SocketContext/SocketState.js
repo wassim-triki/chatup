@@ -5,7 +5,7 @@ import useAuth from '../UserContext/UserState';
 export const SocketProvider = ({ children }) => {
   // const { auth, receiveRequest } = useAuth();
   const [socket, setSocket] = useState(
-    io(process.env.REACT_APP_CHATUP || 'http://localhost:8080', {
+    io(process.env.REACT_APP_PRODUCTION || 'http://localhost:8080', {
       withCredentials: true,
     })
   );
