@@ -30,6 +30,9 @@ export const Main = () => {
         <div className="flex-1">
           <Chat />
         </div>
+        {/* <div className="w-1/3">
+          <div></div>
+        </div> */}
       </div>
 
       {/* <div className="col  bg-green-300 col-span-2 h-[100px]">users</div>

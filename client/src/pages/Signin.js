@@ -87,7 +87,7 @@ const Signin = () => {
               alt=""
             />
           </div>
-          <h1 className="text-gray-dark text-2xl font-normal text-center font-roboto">
+          <h1 className="text-gray-dark text-2xl font-normal text-center font-roboto mb-5">
             Hello Again!
           </h1>
         </div>

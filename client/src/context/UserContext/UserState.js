@@ -9,6 +9,9 @@ import {
   RECEIVE_REQUEST,
   SEND_REQUEST,
   ACCEPTED_REQUEST,
+  BEGIN_CHAT,
+  END_CHAT,
+  SEND_MESSAGE,
 } from './UserActions';
 import UserContext from './UserContext';
 import userReducer from './UserReducer';
@@ -18,6 +21,7 @@ import useSocket from '../SocketContext/SocketState';
 
 export const initialState = {
   user: null,
+  chat: null,
   isAuth: false,
 };
 
@@ -48,6 +52,8 @@ export const UserProvider = ({ children }) => {
   };
   const logoutUser = () => {
     disconnectUser();
+    auth.chat && endChat();
+
     dispatch({ type: LOGOUT_USER });
   };
   const sendRequest = (receiverId) => {
@@ -69,6 +75,30 @@ export const UserProvider = ({ children }) => {
     });
   };
 
+  const beginChat = (receiver) => {
+    const payload = {
+      sender: auth.user,
+      receiver,
+    };
+    dispatch({
+      type: BEGIN_CHAT,
+      payload,
+    });
+  };
+  const sendMessage = (msg) => {
+    console.log(msg);
+    dispatch({
+      type: SEND_MESSAGE,
+      payload: msg,
+    });
+  };
+  const endChat = () => {
+    dispatch({
+      type: END_CHAT,
+      payload: null,
+    });
+  };
+
   const getRequests = () => auth.user?.receivedRequests;
   return (
     <UserContext.Provider
@@ -82,6 +112,9 @@ export const UserProvider = ({ children }) => {
         acceptedRequest,
         requests: getRequests(),
         sendRequest,
+        beginChat,
+        endChat,
+        sendMessage,
       }}
     >
       {children}

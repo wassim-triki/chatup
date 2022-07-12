@@ -9,7 +9,10 @@
   }
 
   .form-container {
-    @apply flex bg-white px-8 py-5 rounded-xl flex-col gap-3 w-[min(90%,350px)]  min-h-[500px] items-stretch justify-between;
+    @apply flex bg-white px-8 py-5 rounded-xl flex-col gap-3 w-[min(90%,350px)]  min-h-[450px] items-stretch;
+  }
+  .message-form-icons {
+    @apply w-12 flex items-center justify-center text-2xl text-gray-dark cursor-pointer;
   }
   .form-page {
     @apply bg-gray-light h-screen flex items-center justify-center font-roboto;

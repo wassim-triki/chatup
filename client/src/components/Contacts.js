@@ -9,9 +9,13 @@ import useSocket from '../context/SocketContext/SocketState';
 const Contacts = () => {
   const { auth, acceptedRequest } = useAuth();
   const { socket } = useSocket();
-  const { data, error, loading } = useFetch('/users/contacts', [
-    auth.user.contacts,
-  ]);
+  const { data, error, loading } = useFetch('/chats', [], 'POST', {
+    _id: auth.user._id,
+  });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     acceptedRequest();
@@ -19,7 +23,7 @@ const Contacts = () => {
   return (
     <div className="box   font-fira overflow-y-auto scrollbar">
       {data?.length ? (
-        data?.map((contact) => <ContactItem key={contact._id} {...contact} />)
+        data?.map((contact) => <ContactItem key={contact._id} data={contact} />)
       ) : (
         <p className="text-gray-default  mx-auto my-auto">No contacts yet...</p>
       )}

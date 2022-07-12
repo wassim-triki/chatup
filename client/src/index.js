@@ -7,18 +7,21 @@ import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { UserProvider } from './context/UserContext/UserState';
 import { SocketProvider } from './context/SocketContext/SocketState';
+import { ChatProvider } from './context/ChatContext/ChatState';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <SocketProvider>
       <UserProvider>
-        <App />
-        <ToastContainer
-          autoClose={2500}
-          pauseOnFocusLoss={false}
-          position={'top-center'}
-        />
+        <ChatProvider>
+          <App />
+          <ToastContainer
+            autoClose={2500}
+            pauseOnFocusLoss={false}
+            position={'top-center'}
+          />
+        </ChatProvider>
       </UserProvider>
     </SocketProvider>
   </BrowserRouter>

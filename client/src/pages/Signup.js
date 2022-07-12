@@ -117,7 +117,7 @@ const Signup = () => {
               alt=""
             />
           </div>
-          <h1 className="text-gray-dark text-2xl font-normal text-center font-roboto">
+          <h1 className="text-gray-dark text-2xl font-normal text-center font-roboto mb-5">
             Welcome Back!
           </h1>
         </div>

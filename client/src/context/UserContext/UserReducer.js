@@ -5,6 +5,8 @@ import {
   RECEIVE_REQUEST,
   SEND_REQUEST,
   ACCEPTED_REQUEST,
+  BEGIN_CHAT,
+  END_CHAT,
 } from './UserActions';
 import { initialState } from './UserState';
 const userReducer = (state, action) => {
@@ -55,6 +57,18 @@ const userReducer = (state, action) => {
           ...state.user,
           sentRequests: [action.payload, ...state.user.sentRequests],
         },
+      };
+    case BEGIN_CHAT:
+      return {
+        ...state,
+        chat: {
+          ...action.payload,
+        },
+      };
+    case END_CHAT:
+      return {
+        ...state,
+        chat: action.payload,
       };
     default:
       return state;
