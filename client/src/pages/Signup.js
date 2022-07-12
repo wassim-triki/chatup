@@ -107,55 +107,68 @@ const Signup = () => {
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit} className="form">
-        <h1 className="text-4xl text-center">Welcome</h1>
-        <div className="flex flex-col gap-2">
-          {inputs.map(({ label, type, name, isRequired }, id) => (
-            <Input
-              key={id}
-              label={label}
-              type={type}
-              name={name}
-              value={data[name]}
-              handleChange={handleChange}
-              isRequired={isRequired}
-              error={formErrors[name]}
-              handleBlur={(e) => {
-                setFormErrors({ ...formErrors, [name]: null });
-              }}
+    <div className="form-page">
+      <div className="form-container">
+        <div className="flex flex-col">
+          <div className=" flex justify-center items-center">
+            <img
+              className="h-[150px] w-[150px]"
+              src={require('../assets/images/logo.png')}
+              alt=""
             />
-          ))}
+          </div>
+          <h1 className="text-gray-dark text-2xl font-normal text-center font-roboto">
+            Welcome Back!
+          </h1>
         </div>
-        <input
-          className="hidden"
-          accept="image/*"
-          type="file"
-          name="picture"
-          onChange={handleChange}
-          id="file"
-        />
-        <label
-          htmlFor="file"
-          className="border-2 text-center border-dashed border-gray-400 w-full h-[44px] flex justify-center items-center text-gray-500 cursor-pointer rounded-lg gap-1 hover:bg-green-light/20 transition-all duration-200 break-all px-3 text-xs"
-        >
-          {imageBlob?.name || (
-            <>
-              <AiOutlineCloudUpload className="text-lg" />
-              Profile picture
-            </>
-          )}
-        </label>
-        <FormButton loading={loading} loadingText="Signing up...">
-          Sign up
-        </FormButton>
-        <div className="text-sm  flex justify-center gap-1">
-          <p className="text-gray-default">Already have an account?</p>
-          <Link to="/signin" className="text-blue-700">
-            Sign in
-          </Link>
-        </div>
-      </form>
+        <form onSubmit={handleSubmit} className="form">
+          <div className="form-inputs">
+            {inputs.map(({ label, type, name, isRequired }, id) => (
+              <Input
+                key={id}
+                label={label}
+                type={type}
+                name={name}
+                value={data[name]}
+                handleChange={handleChange}
+                isRequired={isRequired}
+                error={formErrors[name]}
+                handleBlur={(e) => {
+                  setFormErrors({ ...formErrors, [name]: null });
+                }}
+              />
+            ))}
+          </div>
+          <input
+            className="hidden"
+            accept="image/*"
+            type="file"
+            name="picture"
+            onChange={handleChange}
+            id="file"
+          />
+          <label
+            htmlFor="file"
+            className="border-2 text-center border-dashed border-gray-400 w-full h-[44px] flex justify-center items-center text-gray-500 cursor-pointer rounded-lg gap-1 hover:bg-green-light/20 transition-all duration-200 break-all px-3 text-xs"
+          >
+            {imageBlob?.name || (
+              <>
+                <AiOutlineCloudUpload className="text-lg" />
+                Profile picture
+              </>
+            )}
+          </label>
+          <FormButton loading={loading} loadingText="Signing up...">
+            Sign up
+          </FormButton>
+          <div className="text-sm  flex justify-center gap-1">
+            <p className="text-gray-default">Already have an account?</p>
+            <Link to="/signin" className="text-blue-700">
+              Sign in
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

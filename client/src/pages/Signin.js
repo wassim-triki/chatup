@@ -10,6 +10,7 @@ import parseJWT from '../helpers/parseJWT';
 import useAuth from '../context/UserContext/UserState';
 import Cookies from 'js-cookie';
 import useSocket from '../context/SocketContext/SocketState';
+import { ReactComponent as ChatupLogo } from '../assets/images/logo.svg';
 const Signin = () => {
   const { loginUser, auth } = useAuth();
   const { socket, connectUser } = useSocket();
@@ -76,36 +77,52 @@ const Signin = () => {
     }
   };
   return (
-    <div className="form-container">
-      <form className="form" onSubmit={handleSubmit}>
-        <h1 className="text-4xl text-center">Welcome back,</h1>
-        <div className="flex flex-col gap-2">
-          {inputs.map(({ label, type, name }, id) => (
-            <Input
-              key={id}
-              label={label}
-              type={type}
-              name={name}
-              value={data[name]}
-              handleChange={handleChange}
-              error={formErrors[name]}
-              handleBlur={(e) => {
-                setFormErrors({ ...formErrors, [name]: null });
-              }}
+    <div className="form-page">
+      <div className="form-container">
+        <div className="flex flex-col">
+          <div className=" flex justify-center items-center">
+            <img
+              className="h-[150px] w-[150px]"
+              src={require('../assets/images/logo.png')}
+              alt=""
             />
-          ))}
+          </div>
+          <h1 className="text-gray-dark text-2xl font-normal text-center font-roboto">
+            Hello Again!
+          </h1>
         </div>
 
-        <FormButton loading={loading} loadingText="Signing in...">
-          Sign in
-        </FormButton>
-        <div className="text-sm  flex justify-center gap-1">
-          <p className="text-gray-default">Don't have an account?</p>
-          <Link to="/signup" className="text-blue-700">
-            Sign up
-          </Link>
-        </div>
-      </form>
+        <form className="form" onSubmit={handleSubmit}>
+          {/* <ChatupLogo /> */}
+
+          <div className="form-inputs">
+            {inputs.map(({ label, type, name }, id) => (
+              <Input
+                key={id}
+                label={label}
+                type={type}
+                name={name}
+                value={data[name]}
+                handleChange={handleChange}
+                error={formErrors[name]}
+                handleBlur={(e) => {
+                  setFormErrors({ ...formErrors, [name]: null });
+                }}
+              />
+            ))}
+          </div>
+
+          <FormButton loading={loading} loadingText="Signing in...">
+            Sign in
+          </FormButton>
+          <div className="text-sm  flex justify-center gap-1">
+            <p className="text-gray-default">Don't have an account?</p>
+            <Link to="/signup" className="text-blue-700">
+              Sign up
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

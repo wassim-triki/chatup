@@ -5,7 +5,7 @@ const FormButton = ({ loading, children, loadingText }) => {
     <button
       disabled={loading}
       type="submit"
-      className="btn-primary flex gap-2 items-center transition-all duration-200 mt-7"
+      className="btn-primary flex gap-2 items-center transition-all duration-200 "
     >
       {loading ? (
         <>

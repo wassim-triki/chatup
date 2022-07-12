@@ -8,10 +8,10 @@
     @apply bg-green-dark disabled:bg-green-dark/60 text-sm  active:bg-green-dark text-white text-center h-10 rounded-lg shadow-md  outline-green-50 flex justify-center items-center outline-offset-2 outline-2 hover:bg-green-dark/80;
   }
 
-  .form {
-    @apply flex bg-white p-8 rounded-xl flex-col gap-3 w-[min(90%,350px)]  border-red-500;
-  }
   .form-container {
+    @apply flex bg-white px-8 py-5 rounded-xl flex-col gap-3 w-[min(90%,350px)]  min-h-[500px] items-stretch justify-between;
+  }
+  .form-page {
     @apply bg-gray-light h-screen flex items-center justify-center font-roboto;
   }
   .btn-rounded {
@@ -25,6 +25,12 @@
   }
   .btn-notif {
     @apply hover:opacity-80 active:opacity-100 text-white px-6 py-2 rounded-lg;
+  }
+  .form {
+    @apply flex flex-col items-stretch gap-4  w-full;
+  }
+  .form-inputs {
+    @apply flex flex-col gap-4;
   }
 }
 

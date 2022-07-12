@@ -12,14 +12,14 @@ const Input = ({
 }) => {
   return (
     <div className="group flex flex-col flex-1 w-full gap-1">
-      <label
+      {/* <label
         htmlFor={label}
         className={`  text-gray-dark text-sm font-normal group-hover:text-green-light group-focus-within:text-green-light transition-all duration-200 ${
           error && 'text-red-400'
         }`}
       >
         {label} {isRequired && '*'}
-      </label>
+      </label> */}
       <input
         onChange={handleChange}
         name={name}
