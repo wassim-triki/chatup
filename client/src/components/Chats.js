@@ -9,14 +9,17 @@ import useChat from '../context/ChatContext/ChatState';
 
 const Contacts = () => {
   const { auth, acceptedRequest } = useAuth();
-  const { socket } = useSocket();
+  const { socket, receiveAcceptedChat } = useSocket();
   const { setChats, addToChats, chats } = useChat();
-  const { data, error, loading } = useFetch('/chats', [auth]);
-  // const contacts=data
+  const { data, error, loading } = useFetch('/chat/myChats', [auth]);
 
   useEffect(() => {
     setChats(data);
   }, [data]);
+
+  useEffect(() => {
+    receiveAcceptedChat((chat) => setChats((c) => [chat, ...c]));
+  }, [socket]);
 
   return (
     <div className="box   font-fira overflow-y-auto scrollbar">

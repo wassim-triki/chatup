@@ -33,6 +33,9 @@ export const SocketProvider = ({ children }) => {
   const receiveNotification = (callback) => {
     socket.on('receive_notification', callback);
   };
+  const receiveAcceptedChat = (callback) => {
+    socket.on('accepted_request', callback);
+  };
 
   return (
     <SocketContext.Provider
@@ -42,6 +45,7 @@ export const SocketProvider = ({ children }) => {
         disconnectUser,
         sendNotification,
         receiveNotification,
+        receiveAcceptedChat,
       }}
     >
       {children}

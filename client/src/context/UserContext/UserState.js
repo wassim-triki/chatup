@@ -23,15 +23,7 @@ export const initialState = {
 
 export const UserProvider = ({ children }) => {
   const [auth, dispatch] = useReducer(userReducer, initialState);
-  const {
-    socket,
-    connectUser,
-    disconnectUser,
-    sendNotification,
-    receiveNotification,
-    acceptRequestNotification,
-    acceptedRequestNotification,
-  } = useSocket();
+  const { connectUser, disconnectUser, receiveNotification } = useSocket();
   const { data, error, loading } = useFetch('/auth/me');
   const navigate = useNavigate();
 
@@ -63,11 +55,6 @@ export const UserProvider = ({ children }) => {
   const acceptRequest = (senderId) => {
     dispatch({ type: ACCEPT_REQUEST, payload: senderId });
   };
-  const acceptedRequest = () => {
-    acceptedRequestNotification((receiverId) => {
-      dispatch({ type: ACCEPTED_REQUEST, payload: receiverId });
-    });
-  };
 
   const getRequests = () => auth.user?.receivedRequests;
   return (
@@ -79,7 +66,6 @@ export const UserProvider = ({ children }) => {
         loading,
         acceptRequest,
         receiveRequest,
-        acceptedRequest,
         requests: getRequests(),
         // sendRequest,
       }}

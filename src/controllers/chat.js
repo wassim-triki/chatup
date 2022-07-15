@@ -38,26 +38,53 @@ module.exports.sendRequest = async (req, res) => {
 };
 module.exports.acceptRequest = async (req, res) => {
   try {
-    res.status(200).json({ message: 'Request Accepted.' });
+    const senderId = req.body.id;
+    const receiverId = req.userId;
+    const sender = await User.findOne({ _id: senderId });
+    if (!sender) throw new Error(`User Does Not Exist.`);
+    const receiver = await User.findOne({ _id: receiverId });
+    await User.updateOne(
+      { _id: senderId },
+      { $pull: { sentRequests: receiverId } }
+    );
+    await User.updateOne(
+      { _id: receiverId },
+      { $pull: { receivedRequests: senderId } }
+    );
+    const newChat = {
+      chatName: 'sender',
+      isGroupChat: false,
+      users: [senderId, receiverId],
+    };
+    const createdChat = await Chat.create(newChat);
+    const fullChat = await Chat.findOne({ _id: createdChat._id }).populate(
+      'users',
+      '-password'
+    );
+
+    res.status(201).json({
+      message: `${sender.firstName} Added to your Chat.`,
+      chat: fullChat,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports.userChats = async (req, res) => {
+module.exports.myChats = async (req, res) => {
   try {
-    const userId = req.body._id;
+    const userId = req.userId;
     const chats = await Chat.find({ users: userId })
       .populate('users', '-password')
       .populate('latestMessage');
 
-    const filteredChats = [];
-    for (let i = 0; i < chats.length; i++) {
-      const users = chats[i].users.filter((u) => u._id.toString() !== userId);
-      const { _id, createdAt, updatedAt, __v } = chats[i];
-      filteredChats.push({ _id, users, createdAt, updatedAt, __v });
-    }
-    res.status(200).json(filteredChats);
+    // const filteredChats = [];
+    // for (let i = 0; i < chats.length; i++) {
+    //   const users = chats[i].users.filter((u) => u._id.toString() !== userId);
+    //   const { _id, createdAt, updatedAt, __v } = chats[i];
+    //   filteredChats.push({ _id, users, createdAt, updatedAt, __v });
+    // }
+    res.status(200).json(chats);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });

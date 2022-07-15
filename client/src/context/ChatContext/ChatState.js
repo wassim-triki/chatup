@@ -5,8 +5,10 @@ import ChatContext from './ChatContext';
 
 export const ChatProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
+
   const { acceptedRequestNotification } = useSocket();
 
+  useEffect(() => console.log(chats), [chats]);
   const beginChat = (receiver) => {
     const activeChat = chats.chats.find((c) => receiver === c._id);
     setChats({ ...chats, activeChat });

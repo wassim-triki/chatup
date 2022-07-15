@@ -23,7 +23,7 @@ const userReducer = (state, action) => {
         user: {
           ...state.user,
           receivedRequests: state.user.receivedRequests.filter(
-            (id) => id !== action.payload
+            ({ _id }) => _id !== action.payload
           ),
         },
       };

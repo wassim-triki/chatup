@@ -122,12 +122,12 @@ io.on('connection', (socket) => {
       socket.to(socketId).emit('receive_notification', sender);
     }
   });
-  socket.on('accept_request', async ({ senderId, receiverId }) => {
+  socket.on('accept_request', async ({ senderId, chat }) => {
     const sender = getUserSocket(senderId);
     const senderSocket = sender?.socketId || null;
-    const chat = await Chat.findOne({
-      users: { $all: [receiverId, senderId] },
-    }).populate('users', '-password');
+    // const chat = await Chat.findOne({
+    //   users: { $all: [receiverId, senderId] },
+    // }).populate('users', '-password');
     socket.to(senderSocket).emit('accepted_request', chat);
   });
   socket.on('disconnect', () => {
