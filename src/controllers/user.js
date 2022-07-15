@@ -1,4 +1,5 @@
 const { User } = require('../models/user');
+const { Chat } = require('../models/chat');
 
 module.exports.getAllUsers = async (req, res) => {
   if (!req.query) return;
@@ -12,7 +13,6 @@ module.exports.getAllUsers = async (req, res) => {
 module.exports.searchUsers = async (req, res) => {
   try {
     const search = req.query.search?.trim();
-    console.log(search);
     const query = search
       ? {
           $or: [
@@ -42,8 +42,6 @@ module.exports.acceptRequest = async (req, res) => {
 
     const sender = await User.findOne({ _id: senderId });
     if (!sender) throw new Error('Sender Does Not Exist');
-    if (receiver.contacts.includes(sender._id))
-      throw new Error(`${sender.email} Is Already In Your Contacts.`);
 
     const updatedReceivedRequests = receiver.receivedRequests.filter(
       (id) => id.toString() !== sender._id.toString()
@@ -51,15 +49,13 @@ module.exports.acceptRequest = async (req, res) => {
     const updatedSentRequests = sender.sentRequests.filter((id) => {
       return id.toString() !== receiver._id.toString();
     });
-    // User.updateOne({_id:receiver._id},{$pull:{receivedRequests:}})
     sender.sentRequests = updatedSentRequests;
     receiver.receivedRequests = updatedReceivedRequests;
-    receiver.contacts.push(sender);
-    sender.contacts.push(receiver);
     receiver.markModified('object');
     sender.markModified('object');
     await receiver.save();
     await sender.save();
+    const resp = await Chat.create({ users: [sender, receiver] });
     res.status(201).json({ message: `${sender.firstName} Added To Contacts.` });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -74,7 +70,8 @@ module.exports.sendRequest = async (req, res) => {
     if (!receiver)
       throw new Error(`User With email ${receiver.email} Does Not Exist.`);
     const sender = await User.findOne({ _id: req.userId });
-    if (receiver.contacts.includes(sender._id))
+    const chat = await Chat.find({ users: { $all: [receiverId, req.userId] } });
+    if (chat.length)
       throw new Error(`${receiver.firstName} Is Already In Your Contacts.`);
     if (
       !receiver.sentRequests.includes(sender._id) &&
@@ -93,7 +90,7 @@ module.exports.sendRequest = async (req, res) => {
       throw new Error(`Request Already Sent.`);
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(300).json({ message: error.message });
   } finally {
     res.end();
   }
@@ -150,7 +147,16 @@ module.exports.getContacts = async (req, res) => {
   await getData('contacts', req, res);
 };
 module.exports.getRequests = async (req, res) => {
-  await getData('receivedRequests', req, res);
+  try {
+    const requests = await User.findOne({ _id: req.userId })
+      .select(`receivedRequests -_id`)
+      .populate('receivedRequests');
+    res.status(200).json(requests.receivedRequests);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } finally {
+    res.end();
+  }
 };
 module.exports.deleteUser = async (req, res) => {
   try {

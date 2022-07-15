@@ -10,8 +10,9 @@ const SearchResultItem = ({ _id, picture, firstName, lastName, email }) => {
   const { auth, sendRequest } = useAuth();
   const handleClick = async (e) => {
     try {
-      const resp = await axios.put('/users/sendRequest', { id: _id });
-      sendRequest(_id);
+      const resp = await axios.post('/chat/sendRequest', { id: _id });
+      // sendRequest(_id);
+      sendNotification(auth.user._id, _id);
       toast(resp.data.message, { type: 'success' });
     } catch ({ response }) {
       toast(response.data.message, { type: 'warning' });

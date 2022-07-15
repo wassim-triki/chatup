@@ -8,8 +8,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const authRoute = require('./routes/auth');
 const usersRoute = require('./routes/user');
+const chatsRoute = require('./routes/chat');
 const connection = require('./config/db');
 const socket = require('socket.io');
+const { Chat } = require('./models/chat');
+const { User } = require('./models/user');
 
 //middlewares
 app.use(express.json());
@@ -30,6 +33,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use('/api/auth/', authRoute);
 app.use('/api/users', usersRoute);
+app.use('/api/chat', chatsRoute);
 
 // app.use((req, res, next) => {
 //   return res.status(404).json({ message: 'Bad request.' });
@@ -70,7 +74,7 @@ const server = app.listen(port, () => {
 const io = socket(server, {
   cors: {
     origin: whitelist,
-    methods: ['GET', 'POST', 'PUT'],
+    // methods: ['GET', 'POST', 'PUT',DELETE],
     credentials: true,
   },
 });
@@ -100,6 +104,7 @@ const getUserSocket = (uid) => onlineUsers.find(({ userId }) => userId === uid);
 
 io.on('connection', (socket) => {
   console.log(`User Connected: ${socket.id}`);
+
   socket.on('user_connected', (userId) => {
     addOnlineUser(userId, socket.id);
     console.log('Online users: ', onlineUsers.length);
@@ -108,19 +113,22 @@ io.on('connection', (socket) => {
     removeOnlineUser(socketId);
     console.log('Online users: ' + onlineUsers.length);
   });
-  socket.on('send_notification', ({ senderId, receiverId }) => {
+  socket.on('send_notification', async ({ senderId, receiverId }) => {
     const receiver = getUserSocket(receiverId);
     const socketId = receiver?.socketId || null;
     const isOnline = socketId != null;
     if (isOnline && senderId) {
-      socket.to(socketId).emit('receive_notification', senderId);
+      const sender = await User.findOne({ _id: senderId });
+      socket.to(socketId).emit('receive_notification', sender);
     }
   });
-  socket.on('accept_request', ({ senderId, receiverId }) => {
+  socket.on('accept_request', async ({ senderId, receiverId }) => {
     const sender = getUserSocket(senderId);
     const senderSocket = sender?.socketId || null;
-    console.log('sender:', senderSocket, 'receiverId:', receiverId);
-    socket.to(senderSocket).emit('accepted_request', receiverId);
+    const chat = await Chat.findOne({
+      users: { $all: [receiverId, senderId] },
+    }).populate('users', '-password');
+    socket.to(senderSocket).emit('accepted_request', chat);
   });
   socket.on('disconnect', () => {
     console.log('a user disconnected');

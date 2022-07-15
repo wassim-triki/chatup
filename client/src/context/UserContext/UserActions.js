@@ -4,6 +4,3 @@ export const ACCEPT_REQUEST = 'ACCEPT_REQUEST';
 export const ACCEPTED_REQUEST = 'ACCEPTED_REQUEST';
 export const RECEIVE_REQUEST = 'RECEIVE_REQUEST';
 export const SEND_REQUEST = 'SEND_REQUEST';
-export const BEGIN_CHAT = 'BEGIN_CHAT';
-export const END_CHAT = 'END_CHAT';
-export const SEND_MESSAGE = 'SEND_MESSAGE';

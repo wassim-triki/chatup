@@ -8,9 +8,7 @@ import { toast } from 'react-toastify';
 const NotificationList = ({ listRef }) => {
   const { auth } = useAuth();
   const notificationIds = auth.user.receivedRequests;
-  const { data, error, loading } = useFetch('/users/requests', [
-    notificationIds,
-  ]);
+  const { data, error, loading } = useFetch('/users/requests', [auth]);
 
   return (
     <div
@@ -18,7 +16,7 @@ const NotificationList = ({ listRef }) => {
       className="dropdown min-w-[250px] min-h-[60px] max-h-[calc(100vh-200%)] overflow-y-auto scrollbar z-10"
     >
       {data?.length ? (
-        data?.map((u) => <NotificationItem key={u._id} {...u} />)
+        data?.reverse().map((u) => <NotificationItem key={u._id} {...u} />)
       ) : (
         <p className="text-center text-sm text-gray-default m-auto">
           {loading ? (

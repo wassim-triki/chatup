@@ -2,15 +2,21 @@ import axios from '../api/axiosConfig';
 import React from 'react';
 import { toast } from 'react-toastify';
 import useAuth from '../context/UserContext/UserState';
+import useChat from '../context/ChatContext/ChatState';
+import useSocket from '../context/SocketContext/SocketState';
 const NotificationItem = ({ _id, picture, firstName, lastName }) => {
   const { acceptRequest, acceptedRequest } = useAuth();
   const { auth } = useAuth();
+  const { addToChats, setChats } = useChat();
+  const { acceptRequestNotification, socket } = useSocket();
   const handleAccept = async (e) => {
     try {
       const resp = await axios.put('/users/acceptRequest', { id: _id });
       toast(resp.data.message, { type: 'success' });
-      acceptRequest(_id);
-      acceptedRequest();
+      socket.emit('accept_request', {
+        senderId: _id,
+        receiverId: auth.user._id,
+      });
     } catch (error) {
       console.log(error);
     }

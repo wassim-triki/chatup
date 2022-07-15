@@ -9,9 +9,6 @@ import {
   RECEIVE_REQUEST,
   SEND_REQUEST,
   ACCEPTED_REQUEST,
-  BEGIN_CHAT,
-  END_CHAT,
-  SEND_MESSAGE,
 } from './UserActions';
 import UserContext from './UserContext';
 import userReducer from './UserReducer';
@@ -21,7 +18,6 @@ import useSocket from '../SocketContext/SocketState';
 
 export const initialState = {
   user: null,
-  chat: null,
   isAuth: false,
 };
 
@@ -41,6 +37,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     loginUser(data);
+    console.log(data);
   }, [data]);
   useEffect(() => {
     console.log(error);
@@ -52,50 +49,23 @@ export const UserProvider = ({ children }) => {
   };
   const logoutUser = () => {
     disconnectUser();
-    auth.chat && endChat();
-
     dispatch({ type: LOGOUT_USER });
   };
-  const sendRequest = (receiverId) => {
-    sendNotification(auth.user._id, receiverId);
-    dispatch({ type: SEND_REQUEST, payload: receiverId });
-  };
+  // const sendRequest = (receiverId) => {
+  //   sendNotification(auth.user._id, receiverId);
+  //   dispatch({ type: SEND_REQUEST, payload: receiverId });
+  // };
   const receiveRequest = () => {
-    receiveNotification((senderId) => {
-      dispatch({ type: RECEIVE_REQUEST, payload: senderId });
+    receiveNotification((sender) => {
+      dispatch({ type: RECEIVE_REQUEST, payload: sender });
     });
   };
   const acceptRequest = (senderId) => {
-    acceptRequestNotification(senderId, auth.user._id);
     dispatch({ type: ACCEPT_REQUEST, payload: senderId });
   };
   const acceptedRequest = () => {
     acceptedRequestNotification((receiverId) => {
       dispatch({ type: ACCEPTED_REQUEST, payload: receiverId });
-    });
-  };
-
-  const beginChat = (receiver) => {
-    const payload = {
-      sender: auth.user,
-      receiver,
-    };
-    dispatch({
-      type: BEGIN_CHAT,
-      payload,
-    });
-  };
-  const sendMessage = (msg) => {
-    console.log(msg);
-    dispatch({
-      type: SEND_MESSAGE,
-      payload: msg,
-    });
-  };
-  const endChat = () => {
-    dispatch({
-      type: END_CHAT,
-      payload: null,
     });
   };
 
@@ -111,10 +81,7 @@ export const UserProvider = ({ children }) => {
         receiveRequest,
         acceptedRequest,
         requests: getRequests(),
-        sendRequest,
-        beginChat,
-        endChat,
-        sendMessage,
+        // sendRequest,
       }}
     >
       {children}

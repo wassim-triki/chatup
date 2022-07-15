@@ -8,17 +8,14 @@ import NotificationItem from './NotificationItem';
 import NotificationList from './NotificationList';
 import useSocket from '../context/SocketContext/SocketState';
 const NotificationsContainer = () => {
-  const { socket, receiveNotification } = useSocket();
-  const { auth, receiveRequest, requests } = useAuth();
+  const { socket } = useSocket();
+  const { auth, receiveRequest } = useAuth();
   const [notif, setNotif] = useState(null);
-  const [notifications, setNotifications] = useState([]);
   const [show, setShow] = useState(false);
   useEffect(() => {
     receiveRequest();
   }, [socket]);
-  useEffect(() => {
-    // console.log(requests);
-  }, [requests]);
+
   const ref = useRef(null);
   useClickAway(ref, () => {
     setShow(false);

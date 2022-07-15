@@ -7,7 +7,7 @@ import {
   BsPlusLg,
 } from 'react-icons/bs';
 import Chat from '../components/Chat';
-import Contacts from '../components/Contacts';
+import Contacts from '../components/Chats';
 import SearchInput from '../components/SearchInput';
 
 export const Main = () => {

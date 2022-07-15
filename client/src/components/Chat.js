@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
+import useChat from '../context/ChatContext/ChatState';
 import useAuth from '../context/UserContext/UserState';
 import MessagesForm from './MessagesForm';
 
 const Chat = () => {
-  const { auth } = useAuth();
-  const [chat, setChat] = useState(auth.caht);
+  const { chats } = useChat();
+  const [chat, setChat] = useState(chats?.activeChat);
   useEffect(() => {
-    setChat(auth.chat);
-  }, [auth]);
+    setChat(chats?.activeChat);
+  }, [chats]);
   return (
     <div className="box p-0 font-fira items-stretch">
       {chat ? (
@@ -17,13 +18,13 @@ const Chat = () => {
               <div className="h-12 w-12 rounded-full overflow-hidden">
                 <img
                   className="h-12 w-12 object-cover object-center"
-                  src={chat?.receiver.picture}
+                  src={chat?.picture}
                   alt=""
                 />
               </div>
               <div>
                 <p>
-                  {chat?.receiver.firstName} {chat?.receiver.lastName}
+                  {chat?.firstName} {chat?.lastName}
                 </p>
                 <p className="text-gray-default text-sm">last seen</p>
               </div>

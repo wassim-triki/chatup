@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import useChat from '../context/ChatContext/ChatState';
 import useAuth from '../context/UserContext/UserState';
 import dateToTime from '../helpers/dateToTime';
 import truncateStr from '../helpers/truncateStr';
 
-const ContactItem = ({ lastDate, lastMessage, isOnline, data }) => {
-  const { beginChat } = useAuth();
+const ContactItem = ({ lastDate, lastMessage, isOnline, chat }) => {
+  const { chats } = useChat();
+  const { auth } = useAuth();
+  const [chatUser, setChatUser] = useState(null);
+  useEffect(() => {
+    console.log(chats);
+  }, [chats]);
+
   const handleClick = (e) => {
-    beginChat(data);
+    // beginChat(data._id);
   };
   return (
     <div
@@ -17,7 +24,7 @@ const ContactItem = ({ lastDate, lastMessage, isOnline, data }) => {
         <div className="w-12 h-12 rounded-full overflow-hidden ">
           <img
             className="object-cover object-center"
-            src={data.picture}
+            src={chatUser?.picture}
             alt=""
           />
         </div>
@@ -29,7 +36,7 @@ const ContactItem = ({ lastDate, lastMessage, isOnline, data }) => {
         className={` flex flex-col flex-1 font-fira gap-1 whitespace-nowrap`}
       >
         <div className="text-gray-dark text-lg font-normal ">
-          {data.firstName + ' ' + data.lastName}
+          {chatUser?.firstName + ' ' + chatUser?.lastName}
         </div>
 
         <p className="text-[14px] text-gray-default">

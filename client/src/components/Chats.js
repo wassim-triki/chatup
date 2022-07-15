@@ -3,27 +3,25 @@ import React, { useEffect, useState } from 'react';
 import useAuth from '../context/UserContext/UserState';
 import dateToTime from '../helpers/dateToTime';
 import useFetch from '../hooks/useFetch';
-import ContactItem from './ContactItem';
+import ChatItem from './ChatItem';
 import useSocket from '../context/SocketContext/SocketState';
+import useChat from '../context/ChatContext/ChatState';
 
 const Contacts = () => {
   const { auth, acceptedRequest } = useAuth();
   const { socket } = useSocket();
-  const { data, error, loading } = useFetch('/chats', [], 'POST', {
-    _id: auth.user._id,
-  });
+  const { setChats, addToChats, chats } = useChat();
+  const { data, error, loading } = useFetch('/chats', [auth]);
+  // const contacts=data
 
   useEffect(() => {
-    console.log(data);
+    setChats(data);
   }, [data]);
 
-  useEffect(() => {
-    acceptedRequest();
-  }, [socket]);
   return (
     <div className="box   font-fira overflow-y-auto scrollbar">
-      {data?.length ? (
-        data?.map((contact) => <ContactItem key={contact._id} data={contact} />)
+      {chats?.length ? (
+        chats.map((chat) => <ChatItem key={chat._id} chat={chat} />)
       ) : (
         <p className="text-gray-default  mx-auto my-auto">No contacts yet...</p>
       )}
