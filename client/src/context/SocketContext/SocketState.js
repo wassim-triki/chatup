@@ -5,7 +5,7 @@ import useAuth from '../UserContext/UserState';
 export const SocketProvider = ({ children }) => {
   // const { auth, receiveRequest } = useAuth();
   const [socket, setSocket] = useState(
-    io('https://app-chatup.herokuapp.com' || 'http://localhost:8080', {
+    io('https://app-chatup.herokuapp.com', {
       withCredentials: true,
     })
   );
@@ -21,6 +21,7 @@ export const SocketProvider = ({ children }) => {
   const connectUser = (id) => {
     socket.emit('user_connected', id);
   };
+  a;
   const disconnectUser = () => {
     socket.emit('user_disconnected', socket.id);
   };
