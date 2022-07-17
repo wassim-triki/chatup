@@ -21,7 +21,6 @@ export const SocketProvider = ({ children }) => {
   const connectUser = (id) => {
     socket.emit('user_connected', id);
   };
-  a;
   const disconnectUser = () => {
     socket.emit('user_disconnected', socket.id);
   };
