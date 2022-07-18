@@ -11,7 +11,6 @@ const usersRoute = require('./routes/user');
 const chatsRoute = require('./routes/chat');
 const connection = require('./config/db');
 const socket = require('socket.io');
-const { Chat } = require('./models/chat');
 const { User } = require('./models/user');
 
 //middlewares

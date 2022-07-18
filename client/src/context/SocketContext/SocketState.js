@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import useAuth from '../UserContext/UserState';
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(
-    io('https://app-chatup.herokuapp.com', 'http://localhost:8080', {
+    io('https://app-chatup.herokuapp.com' || 'http://localhost:8080', {
       withCredentials: true,
     })
   );
