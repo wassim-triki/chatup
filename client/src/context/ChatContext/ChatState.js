@@ -5,6 +5,8 @@ import ChatContext from './ChatContext';
 
 export const ChatProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
+  const [openChat, setOpenChat] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const { acceptedRequestNotification } = useSocket();
 
@@ -15,7 +17,17 @@ export const ChatProvider = ({ children }) => {
   };
 
   return (
-    <ChatContext.Provider value={{ chats, setChats, beginChat }}>
+    <ChatContext.Provider
+      value={{
+        chats,
+        setChats,
+        beginChat,
+        openChat,
+        setOpenChat,
+        messages,
+        setMessages,
+      }}
+    >
       {children}
     </ChatContext.Provider>
   );

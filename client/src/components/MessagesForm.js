@@ -1,22 +1,41 @@
+import axios from '../api/axiosConfig';
 import React, { useEffect, useState } from 'react';
 import { BsEmojiSmile } from 'react-icons/bs';
 import { ImAttachment } from 'react-icons/im';
 import { RiSendPlaneFill } from 'react-icons/ri';
+import useChat from '../context/ChatContext/ChatState';
 import useAuth from '../context/UserContext/UserState';
+import useSocket from '../context/SocketContext/SocketState';
 const MessagesForm = () => {
   const [msg, setMsg] = useState('');
-  const { auth, sendMessage } = useAuth();
-  const [chat, setChat] = useState(auth.chat);
-  useEffect(() => {
-    setChat(auth.chat);
-  }, [auth]);
-  const handleSubmit = (e) => {
+  const { auth } = useAuth();
+  const { sendMessage, receiveMessage } = useSocket();
+  const { openChat, setMessages, messages } = useChat();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (!msg.trim().length) return;
       const message = {
         sender: auth.user._id,
-        text: msg.trim(),
+        content: msg.trim(),
+        chat: openChat.chat._id,
       };
+      const resp = await axios.post('/chat/sendMessage', message);
+      const sentMsg = resp.data;
+      sendMessage({
+        receiver:
+          openChat.chat.users[0]._id === auth.user._id
+            ? openChat.chat.users[1]._id
+            : openChat.chat.users[0]._id,
+        message: sentMsg,
+      });
+      // receiveMessage((msg) => {
+      //   alert('received msg');
+      //   setMessages(messages=>[...messages, msg]);
+      // });
+      setMsg('');
+      setMessages((messages) => [...messages, sentMsg]);
       console.log(message);
     } catch (error) {
       console.log(error);

@@ -1,5 +1,6 @@
 const { json } = require('body-parser');
 const { Chat } = require('../models/chat');
+const { Message } = require('../models/message');
 const { User } = require('../models/user');
 
 module.exports.sendRequest = async (req, res) => {
@@ -92,10 +93,57 @@ module.exports.myChats = async (req, res) => {
     res.end();
   }
 };
+
+module.exports.openChat = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+    const chat = await Chat.findOne({ _id: chatId }).populate(
+      'users',
+      '-password'
+    );
+    res.status(200).json(chat);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+module.exports.chatMessages = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+    const messages = await Message.find({ chat: chatId });
+    res.status(200).json(messages);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } finally {
+    res.end();
+  }
+};
+module.exports.sendMessage = async (req, res) => {
+  try {
+    const data = req.body;
+    const chat = await Chat.findOne({ _id: data.chat });
+    if (!chat) throw new Error('Chat does not exist.');
+    const message = await Message.create(data);
+    res.status(200).json(message);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } finally {
+    res.end();
+  }
+};
 module.exports.deleteChats = async (req, res) => {
   try {
     await Chat.deleteMany();
     res.status(200).json({ message: 'All Chats Are Deleted' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } finally {
+    res.end();
+  }
+};
+module.exports.deleteMessages = async (req, res) => {
+  try {
+    await Message.deleteMany();
+    res.status(200).json({ message: 'All Messages Are Deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   } finally {

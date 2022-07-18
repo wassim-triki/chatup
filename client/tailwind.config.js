@@ -24,6 +24,7 @@ module.exports = {
         fira: ['Fira Sans, sans-serif'],
         roboto: ['Roboto, sans-serif'],
         cairo: ['cairo, sans-serif'],
+        poppins: ['Poppins, sans-serif'],
       },
     },
   },

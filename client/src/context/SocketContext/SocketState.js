@@ -5,7 +5,7 @@ import useAuth from '../UserContext/UserState';
 export const SocketProvider = ({ children }) => {
   // const { auth, receiveRequest } = useAuth();
   const [socket, setSocket] = useState(
-    io('https://app-chatup.herokuapp.com' || 'http://localhost:8080', {
+    io('http://localhost:8080' || 'https://app-chatup.herokuapp.com', {
       withCredentials: true,
     })
   );
@@ -36,6 +36,12 @@ export const SocketProvider = ({ children }) => {
   const receiveAcceptedChat = (callback) => {
     socket.on('accepted_request', callback);
   };
+  const sendMessage = (data) => {
+    socket.emit('send_message', data);
+  };
+  const receiveMessage = (callback) => {
+    socket.on('receive_message', callback);
+  };
 
   return (
     <SocketContext.Provider
@@ -46,6 +52,8 @@ export const SocketProvider = ({ children }) => {
         sendNotification,
         receiveNotification,
         receiveAcceptedChat,
+        sendMessage,
+        receiveMessage,
       }}
     >
       {children}

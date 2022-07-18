@@ -1,6 +1,5 @@
 import Signup from './pages/Signup';
 import { Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import Signin from './pages/Signin';
 import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
@@ -8,9 +7,6 @@ import PriveRouteNoAuth from './components/PriveRouteNoAuth';
 import useAuth from './context/UserContext/UserState';
 import Spinner from './components/Spinner';
 import NotFound from './pages/NotFound';
-
-import { useEffect, useState } from 'react';
-import useSocket from './context/SocketContext/SocketState';
 
 function App() {
   const { loading } = useAuth();
@@ -35,6 +31,7 @@ function App() {
           </Route>
           <Route path="/" element={<PrivateRoute />}>
             <Route path="/" element={<Home />} />
+            <Route path="/:chatId" element={<Home />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

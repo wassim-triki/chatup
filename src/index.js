@@ -130,6 +130,14 @@ io.on('connection', (socket) => {
     // }).populate('users', '-password');
     socket.to(senderSocket).emit('accepted_request', chat);
   });
+  socket.on('send_message', ({ receiver, message }) => {
+    // console.log(message);
+    const user = getUserSocket(receiver) || null;
+    if (!user) return;
+    const { socketId } = user;
+    console.log(socketId);
+    socket.to(socketId).emit('receive_message', message);
+  });
   socket.on('disconnect', () => {
     console.log('a user disconnected');
   });
