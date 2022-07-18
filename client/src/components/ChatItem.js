@@ -31,39 +31,37 @@ const ContactItem = ({ lastDate, lastMessage, isOnline, chat }) => {
     }
   };
   return (
-    <Link to={`/${chat._id}`}>
+    <div
+      onClick={handleClick}
+      className={`flex gap-3 justify-between cursor-pointer relative hover:bg-gray-100 p-3 mb-2 last-of-type:mb-0 rounded-2xl self-stretch`}
+    >
+      <div className="relative w-min self-start ">
+        <div className="w-12 h-12 rounded-full overflow-hidden ">
+          <img
+            className="object-cover object-center"
+            src={chatUser ? chatUser.picture : chat.groupPic}
+            alt=""
+          />
+        </div>
+        {isOnline && (
+          <div className="absolute w-[13px] h-[13px] border-2 border-white bg-green-light right-0 bottom-0 rounded-full"></div>
+        )}
+      </div>
       <div
-        onClick={handleClick}
-        className={`flex gap-3 justify-between cursor-pointer relative hover:bg-gray-100 p-3 mb-2 last-of-type:mb-0 rounded-2xl self-stretch`}
+        className={` flex flex-col flex-1 font-fira gap-1 whitespace-nowrap`}
       >
-        <div className="relative w-min self-start ">
-          <div className="w-12 h-12 rounded-full overflow-hidden ">
-            <img
-              className="object-cover object-center"
-              src={chatUser ? chatUser.picture : chat.groupPic}
-              alt=""
-            />
-          </div>
-          {isOnline && (
-            <div className="absolute w-[13px] h-[13px] border-2 border-white bg-green-light right-0 bottom-0 rounded-full"></div>
-          )}
+        <div className="text-gray-dark text-lg font-normal ">
+          {chatUser ? getFullName(chatUser) : chat.chatName}
         </div>
-        <div
-          className={` flex flex-col flex-1 font-fira gap-1 whitespace-nowrap`}
-        >
-          <div className="text-gray-dark text-lg font-normal ">
-            {chatUser ? getFullName(chatUser) : chat.chatName}
-          </div>
 
-          <p className="text-[13px] text-gray-400">
-            {!truncateStr(chat.laestMessage, 25) && 'No messages yet.'}
-          </p>
-        </div>
-        {/* <div className="font-medium text-sm text-gray-dark">
+        <p className="text-[13px] text-gray-400">
+          {!truncateStr(chat.laestMessage, 25) && 'No messages yet.'}
+        </p>
+      </div>
+      {/* <div className="font-medium text-sm text-gray-dark">
           {!dateToTime(lastDate) && ''}
         </div> */}
-      </div>
-    </Link>
+    </div>
   );
 };
 

@@ -31,7 +31,6 @@ function App() {
           </Route>
           <Route path="/" element={<PrivateRoute />}>
             <Route path="/" element={<Home />} />
-            <Route path="/:chatId" element={<Home />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
