@@ -30,13 +30,9 @@ const MessagesForm = () => {
             : openChat.chat.users[0]._id,
         message: sentMsg,
       });
-      // receiveMessage((msg) => {
-      //   alert('received msg');
-      //   setMessages(messages=>[...messages, msg]);
-      // });
+
       setMsg('');
       setMessages((messages) => [...messages, sentMsg]);
-      console.log(message);
     } catch (error) {
       console.log(error);
     }

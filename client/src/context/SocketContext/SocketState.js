@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import SocketContext from './SocketContext';
 import { io } from 'socket.io-client';
-import useAuth from '../UserContext/UserState';
+const PROD = 'https://app-chatup.herokuapp.com';
+const DEV = 'http://localhost:8080';
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(
-    io('https://app-chatup.herokuapp.com' || 'http://localhost:8080', {
+    io(DEV, {
       withCredentials: true,
     })
   );

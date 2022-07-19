@@ -6,16 +6,26 @@ import dateToTime from '../helpers/dateToTime';
 import getChatUser from '../helpers/getChatUser';
 import getFullName from '../helpers/getFullName';
 import truncateStr from '../helpers/truncateStr';
-import { Link, useLocation } from 'react-router-dom';
+import useSocket from '../context/SocketContext/SocketState';
 
-const ContactItem = ({ lastDate, lastMessage, isOnline, chat }) => {
-  const { chats, setOpenChat, openChat } = useChat();
+const ContactItem = ({ isOnline, chat }) => {
+  const { chats, setOpenChat, openChat, messages } = useChat();
+  const { socket, receiveMessage } = useSocket();
   const { auth } = useAuth();
   const [chatUser, setChatUser] = useState(null);
-  const location = useLocation();
+  const [latestMessage, setLatestMessage] = useState(chat.latestMessage);
+  useEffect(() => {
+    receiveMessage((msg) => {
+      console.log(msg);
+    });
+  }, [socket]);
+  useEffect(() => {
+    if (messages[messages.length - 1]?.chat === chat._id) {
+      setLatestMessage(messages[messages.length - 1]);
+    }
+  }, [messages]);
   useEffect(() => {
     !chat.isGroupChat && setChatUser(getChatUser(auth.user, chat.users));
-    console.log(chat);
   }, [chat]);
 
   const handleClick = async (e) => {
@@ -33,7 +43,7 @@ const ContactItem = ({ lastDate, lastMessage, isOnline, chat }) => {
   return (
     <div
       onClick={handleClick}
-      className={`flex gap-3 justify-between cursor-pointer relative hover:bg-gray-100 p-3 mb-2 last-of-type:mb-0 rounded-2xl self-stretch`}
+      className={`flex gap-3 justify-between cursor-pointer relative hover:bg-gray-100 p-3 mb-2 last-of-type:mb-0 rounded-2xl self-stretch font-poppins`}
     >
       <div className="relative w-min self-start ">
         <div className="w-12 h-12 rounded-full overflow-hidden ">
@@ -47,20 +57,21 @@ const ContactItem = ({ lastDate, lastMessage, isOnline, chat }) => {
           <div className="absolute w-[13px] h-[13px] border-2 border-white bg-green-light right-0 bottom-0 rounded-full"></div>
         )}
       </div>
-      <div
-        className={` flex flex-col flex-1 font-fira gap-1 whitespace-nowrap`}
-      >
-        <div className="text-gray-dark text-lg font-normal ">
+      <div className={` flex flex-col flex-1  gap-1 whitespace-nowrap`}>
+        <div className="text-gray-dark text-md font-normal ">
           {chatUser ? getFullName(chatUser) : chat.chatName}
         </div>
 
         <p className="text-[13px] text-gray-400">
-          {!truncateStr(chat.laestMessage, 25) && 'No messages yet.'}
+          {latestMessage && latestMessage.sender === auth.user._id
+            ? 'You: '
+            : ''}
+          {truncateStr(latestMessage?.content, 18) || 'No messages yet.'}
         </p>
       </div>
-      {/* <div className="font-medium text-sm text-gray-dark">
-          {!dateToTime(lastDate) && ''}
-        </div> */}
+      <div className="font-medium text-sm text-gray-dark">
+        {dateToTime(latestMessage?.createdAt) || ''}
+      </div>
     </div>
   );
 };

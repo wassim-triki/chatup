@@ -7,6 +7,7 @@ import MessagesForm from './MessagesForm';
 import dateToTime from '../helpers/dateToTime';
 import useSocket from '../context/SocketContext/SocketState';
 import { useRef } from 'react';
+import Message from './Message';
 
 const Chat = () => {
   const { auth } = useAuth();
@@ -16,7 +17,6 @@ const Chat = () => {
 
   useEffect(() => {
     receiveMessage((msg) => {
-      console.log(msg);
       setMessages((messages) => [...messages, msg]);
     });
   }, [socket]);
@@ -34,8 +34,10 @@ const Chat = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const resp = await axios.get(`/chat/${openChat.chat._id}/messages`);
-        setMessages(resp.data);
+        if (openChat) {
+          const resp = await axios.get(`/chat/${openChat.chat._id}/messages`);
+          setMessages(resp.data);
+        } else return;
       } catch (error) {
         console.log(error);
       }
@@ -72,73 +74,23 @@ const Chat = () => {
             {messages.length ? (
               <div className="flex w-full flex-col ">
                 <div className="flex flex-col gap-2 w-full h-full ">
-                  {messages.map((m, idx) => {
+                  {messages.map((message, idx) => {
                     return (
-                      <div
-                        key={m._id}
-                        className={`w-full   h-fit font-poppins flex ${
-                          m.sender === auth.user._id
-                            ? 'justify-end'
-                            : 'justify-start'
-                        }`}
-                      >
+                      <div key={message._id}>
+                        <Message {...message} idx={idx} />
                         <div
-                          className={` max-w-[80%] min-h-[70px] h-full flex min-w-[70px] gap-4 ${
-                            m.sender === auth.user._id && 'flex-row-reverse'
-                          }`}
-                        >
-                          <div
-                            className={`${
-                              m.sender === auth.user._id ? 'hidden' : 'w-10'
-                            } h-full flex flex-col items-center gap-1 `}
-                          >
-                            {m?.sender != auth.user._id && (
-                              <>
-                                <div className="h-10 w-10 ">
-                                  {!(
-                                    messages[idx - 1]?.sender === m.sender
-                                  ) && (
-                                    <div className="h-full rounded-full overflow-hidden">
-                                      <img
-                                        className="h-full w-full object-cover object-center"
-                                        src={
-                                          openChat.chat.users[0]._id ===
-                                          m.sender
-                                            ? openChat.chat.users[0].picture
-                                            : openChat.chat.users[1].picture
-                                        }
-                                        alt=""
-                                      />
-                                    </div>
-                                  )}
-                                </div>
-                                {!(messages[idx - 1]?.sender === m.sender) && (
-                                  <span className="text-xs font-medium  text-gray-dark text-center">
-                                    {dateToTime(m.createdAt)}
-                                  </span>
-                                )}
-                              </>
-                            )}
-                          </div>
-
-                          <div
-                            className={`flex flex-1 items-center justify-center max-w-full min-w-[70px]   p-4 rounded-xl bg-gray-light break-all  font-light text-gray-dark ${
-                              m.sender === auth.user._id
-                                ? 'rounded-tr-none bg-indigo-default text-white'
-                                : 'rounded-tl-none '
-                            }`}
-                          >
-                            {m.content}
-                          </div>
-                        </div>
+                          className="w-full bg-black z-50"
+                          ref={messagesEndRef}
+                        ></div>
                       </div>
                     );
                   })}
                 </div>
-                <div ref={messagesEndRef}></div>
               </div>
             ) : (
-              <p className="text-gray-400">No messages yet...</p>
+              <p className="text-gray-400 w-full flex items-center justify-center">
+                No messages yet...
+              </p>
             )}
           </div>
           <div className="p-4 mt-auto items-stretch ">

@@ -97,10 +97,9 @@ module.exports.myChats = async (req, res) => {
 module.exports.openChat = async (req, res) => {
   try {
     const { chatId } = req.params;
-    const chat = await Chat.findOne({ _id: chatId }).populate(
-      'users',
-      '-password'
-    );
+    const chat = await Chat.findOne({ _id: chatId })
+      .populate('users', '-password')
+      .populate('latestMessage');
     res.status(200).json(chat);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -123,6 +122,8 @@ module.exports.sendMessage = async (req, res) => {
     const chat = await Chat.findOne({ _id: data.chat });
     if (!chat) throw new Error('Chat does not exist.');
     const message = await Message.create(data);
+    chat.latestMessage = message._id;
+    await chat.save();
     res.status(200).json(message);
   } catch (error) {
     res.status(500).json({ message: error.message });

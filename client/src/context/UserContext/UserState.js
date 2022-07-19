@@ -29,7 +29,6 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     loginUser(data);
-    console.log(data);
   }, [data]);
   useEffect(() => {
     console.log(error);
