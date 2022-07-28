@@ -4,10 +4,12 @@ import { toast } from 'react-toastify';
 import useAuth from '../context/UserContext/UserState';
 import useChat from '../context/ChatContext/ChatState';
 import useSocket from '../context/SocketContext/SocketState';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 const NotificationItem = ({ _id, picture, firstName, lastName }) => {
   const { auth, acceptRequest } = useAuth();
   const { setChats } = useChat();
   const { socket } = useSocket();
+  const { isDark } = useDarkMode();
   const handleAccept = async (e) => {
     try {
       const resp = await axios.post('/chat/acceptRequest', { id: _id });
@@ -23,7 +25,9 @@ const NotificationItem = ({ _id, picture, firstName, lastName }) => {
   return (
     <div
       key={_id}
-      className="w-[300px] flex flex-col gap-2  font-fira hover:bg-gray-100 rounded-xl p-2"
+      className={`w-[300px] flex flex-col gap-2  font-poppins ${
+        isDark ? 'hover:bg-dark-80' : 'hover:bg-gray-100'
+      }  rounded-xl p-2`}
     >
       <div className="flex items-start gap-2">
         <div className="w-14 h-14 shrink-0 rounded-full overflow-hidden ">

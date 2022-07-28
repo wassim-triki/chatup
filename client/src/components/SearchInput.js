@@ -4,6 +4,7 @@ import SearchResult from './SearchResult';
 import { useClickAway } from 'react-use';
 import { debounce } from 'lodash';
 import axios from '../api/axiosConfig';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 
 const SearchInput = () => {
   const [show, setShow] = useState(false);
@@ -24,7 +25,7 @@ const SearchInput = () => {
   };
 
   const debounceSearch = useCallback(debounce(handleDebounceSearch, 500), []);
-
+  const { isDark } = useDarkMode();
   const ref = useRef(null);
   useClickAway(ref, () => {
     setShow(false);
@@ -41,16 +42,24 @@ const SearchInput = () => {
   };
   return (
     <div ref={ref} className="relative">
-      <div className="flex bg-white   rounded-full items-center h-14 overflow-hidden font-fira">
+      <div
+        className={`flex  ${
+          isDark ? 'bg-dark-90' : 'bg-white'
+        }  rounded-full items-center h-14 overflow-hidden font-poppins `}
+      >
         <button
           className=" h-full w-14 flex justify-center items-center
       "
         >
-          <IoSearchOutline className="" />
+          <IoSearchOutline className={isDark && 'text-white'} />
         </button>
 
         <input
-          className="outline-none h-full w-full text-gray-dark text-sm placeholder:text-gray-dark pr-7"
+          className={`outline-none h-full w-full  text-sm placeholder:text-gray-dark pr-7  ${
+            isDark
+              ? 'bg-dark-90 text-white placeholder:text-dark-70'
+              : 'text-gray-dark'
+          }`}
           type="text"
           placeholder="SEARCH"
           onChange={handleSearchChange}

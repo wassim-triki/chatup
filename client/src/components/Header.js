@@ -4,12 +4,23 @@ import { RiArrowDownSLine } from 'react-icons/ri';
 import useAuth from '../context/UserContext/UserState';
 import UserContainer from './UserContainer';
 import NotificationsContainer from './NotificationsContainer';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 const Header = () => {
+  const { isDark } = useDarkMode();
   return (
-    <header className=" h-20 flex items-center text-gray-dark font-fira mb-10">
-      <div className="flex items-center">
-        <BsFillChatDotsFill className="text-3xl text-green-dark" />
-        <span className="font-cairo font-bold text-xl">ChatUP</span>
+    <header
+      className={` h-20 flex items-center  ${
+        isDark ? 'text-white' : 'text-gray-dark'
+      } font-fira mb-10 `}
+    >
+      <div className="flex items-center gap-1">
+        {/* <BsFillChatDotsFill className="text-3xl text-green-dark" /> */}
+        <img
+          className="h-8"
+          src={require('../assets/images/logo192.png')}
+          alt=""
+        />
+        <span className="font-ds font-bold text-2xl ">ChatUP</span>
       </div>
       <div className="ml-auto flex items-center gap-5">
         <NotificationsContainer />

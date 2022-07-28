@@ -4,21 +4,21 @@ import useAuth from '../context/UserContext/UserState';
 import fetchData from '../helpers/fetchData';
 import { useClickAway } from 'react-use';
 import useSocket from '../context/SocketContext/SocketState';
+import { BiUserCircle } from 'react-icons/bi';
+import { CgDarkMode } from 'react-icons/cg';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
+import UserMenu from './UserMenu';
+
 const UserContainer = () => {
   const { auth, logoutUser } = useAuth();
   const [show, setShow] = useState(false);
   const { socket, disconnectUser } = useSocket();
+  const { isDark, toggleDarkMode } = useDarkMode();
   const ref = useRef(null);
   useClickAway(ref, () => {
     setShow(false);
   });
 
-  const handleLogout = async () => {
-    const resp = await fetchData('/auth/logout');
-    const { data, message: error } = resp;
-    data && toast(data.message, { type: 'success' });
-    logoutUser();
-  };
   return (
     <div className="hover:bg-gray-300 active:bg-gray-400   justify-center   cursor-pointer rounded-full gap-1  flex items-center   relative">
       <div
@@ -31,17 +31,8 @@ const UserContainer = () => {
           alt=""
         />
       </div>
-      {auth.user.firstName + ' ' + auth.user.lastName}
-      {show && (
-        <div ref={ref} className=" w-48 p-2 dropdown text-sm">
-          <div
-            onClick={handleLogout}
-            className="hover:bg-gray-100 rounded-lg p-2"
-          >
-            Logout
-          </div>
-        </div>
-      )}
+      {/* {auth.user.firstName + ' ' + auth.user.lastName} */}
+      {show && <UserMenu myRef={ref} />}
     </div>
   );
 };

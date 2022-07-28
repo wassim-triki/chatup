@@ -9,8 +9,10 @@ import {
 import Chat from '../components/Chat';
 import Contacts from '../components/Chats';
 import SearchInput from '../components/SearchInput';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 
 export const Main = () => {
+  const { isDark } = useDarkMode();
   return (
     <main className="flex flex-col gap-4">
       <div className="flex gap-7 items-center">
@@ -18,7 +20,13 @@ export const Main = () => {
           <SearchInput />
         </div>
         <div className="flex-1 flex gap-4 justify-end">
-          <button className="bg-white btn-rounded whitespace-nowrap flex items-center gap-2 hover:shadow-sm hover:bg-gray-100 transition-all duration-200">
+          <button
+            className={`${
+              isDark
+                ? 'text-white bg-dark-90 hover:bg-dark-80'
+                : 'bg-white hover:bg-gray-100'
+            } btn-rounded whitespace-nowrap flex items-center gap-2 hover:shadow-sm  transition-all duration-200`}
+          >
             <BsPlusCircle className="text-xl" /> <p>GOURP CHAT</p>
           </button>
         </div>

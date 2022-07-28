@@ -8,12 +8,14 @@ import dateToTime from '../helpers/dateToTime';
 import useSocket from '../context/SocketContext/SocketState';
 import { useRef } from 'react';
 import Message from './Message';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 
 const Chat = () => {
   const { auth } = useAuth();
   const { openChat, messages, setMessages } = useChat();
   const [chatUser, setChatUser] = useState(null);
   const { receiveMessage, socket } = useSocket();
+  const { isDark } = useDarkMode();
 
   useEffect(() => {
     receiveMessage((msg) => {
@@ -48,10 +50,18 @@ const Chat = () => {
     scrollToBottom();
   }, [messages]);
   return (
-    <div className="box p-0 font-fira items-stretch">
+    <div
+      className={`box ${
+        isDark && 'bg-dark-90 text-white'
+      } p-0 font-poppins items-stretch`}
+    >
       {openChat ? (
         <>
-          <div className=" p-2 border-b-2 border-b-gray-100">
+          <div
+            className={`p-2 border-b-[1px] ${
+              isDark ? 'border-b-dark-80' : 'border-b-gray-200'
+            } `}
+          >
             <div className="flex items-center h-full gap-2">
               <div className="h-12 w-12 rounded-full overflow-hidden">
                 <img
@@ -98,8 +108,22 @@ const Chat = () => {
           </div>
         </>
       ) : (
-        <div className="h-full w-full bg-gray-light flex justify-center items-center text-gray-400">
-          No Active Chat.
+        <div className="h-full w-full  flex gap-2 flex-col justify-center items-center ">
+          <img
+            src={require(`../assets/images/logo192-outline${
+              isDark ? '-light' : ''
+            }.png`)}
+            className="h-24"
+            alt=""
+          />
+          <p className="text-xl font-extralight font-poppins">Your Messages</p>
+          <p
+            className={`text-sm font-light  ${
+              isDark ? 'text-dark-70' : 'text-gray-400'
+            } font-poppins text-center`}
+          >
+            Select a chat to begin private messaging
+          </p>
         </div>
       )}
     </div>

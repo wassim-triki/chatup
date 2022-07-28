@@ -7,10 +7,12 @@ import { last } from 'lodash';
 import NotificationItem from './NotificationItem';
 import NotificationList from './NotificationList';
 import useSocket from '../context/SocketContext/SocketState';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 const NotificationsContainer = () => {
   const { socket } = useSocket();
   const { auth, receiveRequest } = useAuth();
   const [notif, setNotif] = useState(null);
+  const { isDark } = useDarkMode();
   const [show, setShow] = useState(false);
   useEffect(() => {
     receiveRequest();
@@ -27,7 +29,9 @@ const NotificationsContainer = () => {
   return (
     <div
       onClick={handleClick}
-      className="hover:bg-gray-200 active:bg-gray-300 cursor-pointer rounded-full w-9 h-9 flex justify-center items-center relative"
+      className={`hover:bg-gray-200 ${isDark && 'hover:bg-dark-90 '} ${
+        !isDark && 'active:bg-gray-300'
+      } cursor-pointer rounded-full w-9 h-9 flex justify-center items-center relative`}
     >
       <VscBell className="text-2xl text-center" />
       {auth.user.receivedRequests.length ? (

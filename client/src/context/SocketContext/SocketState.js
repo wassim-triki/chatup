@@ -5,7 +5,7 @@ const PROD = 'https://app-chatup.herokuapp.com';
 const DEV = 'http://localhost:8080';
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(
-    io(DEV, {
+    io(PROD, {
       withCredentials: true,
     })
   );

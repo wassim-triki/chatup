@@ -6,9 +6,11 @@ import useFetch from '../hooks/useFetch';
 import ChatItem from './ChatItem';
 import useSocket from '../context/SocketContext/SocketState';
 import useChat from '../context/ChatContext/ChatState';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 
 const Contacts = () => {
   const { auth, acceptedRequest } = useAuth();
+  const { isDark } = useDarkMode();
   const { socket, receiveAcceptedChat, receiveMessage, getUserOnlineStatus } =
     useSocket();
   const { setChats, addToChats, chats } = useChat();
@@ -23,7 +25,11 @@ const Contacts = () => {
   }, [socket]);
 
   return (
-    <div className="box   font-fira overflow-y-auto scrollbar">
+    <div
+      className={`box ${
+        isDark && 'bg-dark-90 '
+      }  font-fira overflow-y-auto scrollbar`}
+    >
       {chats?.length ? (
         chats.map((chat) => <ChatItem key={chat._id} chat={chat} />)
       ) : (

@@ -1,10 +1,12 @@
 import React from 'react';
 import useChat from '../context/ChatContext/ChatState';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import useAuth from '../context/UserContext/UserState';
 import dateToTime from '../helpers/dateToTime';
 
 const Message = ({ _id, sender, createdAt, content, idx }) => {
   const { messages, openChat } = useChat();
+  const { isDark } = useDarkMode();
   const { auth } = useAuth();
   return (
     <div
@@ -40,7 +42,11 @@ const Message = ({ _id, sender, createdAt, content, idx }) => {
                 )}
               </div>
               {!(messages[idx - 1]?.sender === sender) && (
-                <span className="text-xs font-medium  text-gray-dark text-center">
+                <span
+                  className={`text-xs font-medium ${
+                    isDark ? 'text-dark-70' : 'text-gray-dark'
+                  } text-center`}
+                >
                   {dateToTime(createdAt)}
                 </span>
               )}
@@ -49,10 +55,12 @@ const Message = ({ _id, sender, createdAt, content, idx }) => {
         </div>
 
         <div
-          className={`flex flex-1 items-center justify-center max-w-full min-w-[70px]   p-4 rounded-xl bg-gray-light break-all  font-light text-gray-dark ${
+          className={`flex flex-1 items-center justify-center max-w-full min-w-[70px]   p-4 rounded-xl bg-gray-light break-all  font-light  ${
             sender === auth.user._id
               ? 'rounded-tr-none bg-indigo-default text-white'
-              : 'rounded-tl-none '
+              : isDark
+              ? 'rounded-tl-none text-white bg-dark-80'
+              : 'rounded-tl-none text-gray-dark'
           }`}
         >
           {content}

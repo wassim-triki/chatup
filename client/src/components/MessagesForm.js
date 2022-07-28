@@ -6,11 +6,13 @@ import { RiSendPlaneFill } from 'react-icons/ri';
 import useChat from '../context/ChatContext/ChatState';
 import useAuth from '../context/UserContext/UserState';
 import useSocket from '../context/SocketContext/SocketState';
+import useDarkMode from '../context/DarkModeContext/DarkModeState';
 const MessagesForm = () => {
   const [msg, setMsg] = useState('');
   const { auth } = useAuth();
   const { sendMessage, receiveMessage } = useSocket();
   const { openChat, setMessages, messages } = useChat();
+  const { isDark } = useDarkMode();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,19 +41,26 @@ const MessagesForm = () => {
   };
   return (
     <form className="flex items-center gap-4 " onSubmit={handleSubmit}>
-      <div className="flex-1 bg-gray-light rounded-full flex items-stretch h-12 ">
-        <div className="message-form-icons">
+      <div
+        className={`flex-1  ${
+          isDark ? 'bg-dark-80' : 'bg-gray-light'
+        } rounded-full flex items-stretch h-12`}
+      >
+        <div className={`message-form-icons ${isDark && 'text-white'}`}>
           <BsEmojiSmile />
         </div>
         <input
-          className="bg-transparent flex-1 outline-none "
+          className="bg-transparent flex-1 outline-none placeholder:text-dark-70"
           placeholder="Say something"
           type="text"
           onChange={(e) => setMsg(e.target.value)}
           value={msg}
         />
 
-        <label htmlFor="file" className=" message-form-icons">
+        <label
+          htmlFor="file"
+          className={`message-form-icons ${isDark && 'text-white'}`}
+        >
           <input type="file" className="hidden" id="file" />
           <ImAttachment />
         </label>

@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import { UserProvider } from './context/UserContext/UserState';
 import { SocketProvider } from './context/SocketContext/SocketState';
 import { ChatProvider } from './context/ChatContext/ChatState';
+import { DarkModeProvider } from './context/DarkModeContext/DarkModeState';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,12 +16,14 @@ root.render(
     <SocketProvider>
       <UserProvider>
         <ChatProvider>
-          <App />
-          <ToastContainer
-            autoClose={2500}
-            pauseOnFocusLoss={false}
-            position={'top-center'}
-          />
+          <DarkModeProvider>
+            <App />
+            <ToastContainer
+              autoClose={2500}
+              pauseOnFocusLoss={false}
+              position={'top-center'}
+            />
+          </DarkModeProvider>
         </ChatProvider>
       </UserProvider>
     </SocketProvider>
