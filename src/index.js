@@ -107,6 +107,7 @@ io.on('connection', (socket) => {
   socket.on('user_connected', (userId) => {
     addOnlineUser(userId, socket.id);
     console.log('Online users: ', onlineUsers.length);
+    socket.broadcast.emit('online_status', userId);
   });
   socket.on('user_disconnected', (socketId) => {
     removeOnlineUser(socketId);

@@ -8,17 +8,14 @@ import getFullName from '../helpers/getFullName';
 import truncateStr from '../helpers/truncateStr';
 import useSocket from '../context/SocketContext/SocketState';
 
-const ContactItem = ({ isOnline, chat }) => {
+const ContactItem = ({ chat }) => {
   const { chats, setOpenChat, openChat, messages } = useChat();
-  const { socket, receiveMessage } = useSocket();
   const { auth } = useAuth();
   const [chatUser, setChatUser] = useState(null);
   const [latestMessage, setLatestMessage] = useState(chat.latestMessage);
-  useEffect(() => {
-    receiveMessage((msg) => {
-      console.log(msg);
-    });
-  }, [socket]);
+  const [isOnline, setIsOnline] = useState(false);
+  const { socket, getUserOnlineStatus } = useSocket();
+
   useEffect(() => {
     if (messages[messages.length - 1]?.chat === chat._id) {
       setLatestMessage(messages[messages.length - 1]);
@@ -27,6 +24,12 @@ const ContactItem = ({ isOnline, chat }) => {
   useEffect(() => {
     !chat.isGroupChat && setChatUser(getChatUser(auth.user, chat.users));
   }, [chat]);
+
+  // useEffect(() => {
+  //   getUserOnlineStatus((uid) => {
+  //     setIsOnline(chat.users.some(({ _id }) => _id === uid));
+  //   });
+  // }, [socket]);
 
   const handleClick = async (e) => {
     try {
@@ -53,7 +56,7 @@ const ContactItem = ({ isOnline, chat }) => {
             alt=""
           />
         </div>
-        {isOnline && (
+        {chat.isOnline && (
           <div className="absolute w-[13px] h-[13px] border-2 border-white bg-green-light right-0 bottom-0 rounded-full"></div>
         )}
       </div>

@@ -21,6 +21,9 @@ export const SocketProvider = ({ children }) => {
   const connectUser = (id) => {
     socket.emit('user_connected', id);
   };
+  const getUserOnlineStatus = (callback) => {
+    socket.on('online_status', callback);
+  };
   const disconnectUser = () => {
     socket.emit('user_disconnected', socket.id);
   };
@@ -54,6 +57,7 @@ export const SocketProvider = ({ children }) => {
         receiveAcceptedChat,
         sendMessage,
         receiveMessage,
+        getUserOnlineStatus,
       }}
     >
       {children}
