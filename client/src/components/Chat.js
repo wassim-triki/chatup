@@ -9,10 +9,11 @@ import useSocket from '../context/SocketContext/SocketState';
 import { useRef } from 'react';
 import Message from './Message';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
+import { BiArrowBack } from 'react-icons/bi';
 
 const Chat = () => {
   const { auth } = useAuth();
-  const { openChat, messages, setMessages } = useChat();
+  const { openChat, setOpenChat, messages, setMessages } = useChat();
   const [chatUser, setChatUser] = useState(null);
   const { receiveMessage, socket } = useSocket();
   const { isDark } = useDarkMode();
@@ -62,8 +63,14 @@ const Chat = () => {
               isDark ? 'border-b-dark-80' : 'border-b-gray-200'
             } `}
           >
-            <div className="flex items-center h-full gap-2">
-              <div className="h-12 w-12 rounded-full overflow-hidden">
+            <div className="flex items-center h-full gap-0">
+              <button
+                onClick={() => setOpenChat(null)}
+                className=" h-full w-12 flex justify-center items-center"
+              >
+                <BiArrowBack className="text-2xl text-dark-80" />
+              </button>
+              <div className="h-12 w-12 rounded-full overflow-hidden mr-2">
                 <img
                   className="h-12 w-12 object-cover object-center"
                   src={!openChat.isGroupChat && chatUser?.picture}
@@ -78,9 +85,10 @@ const Chat = () => {
                 </p>
                 <p className="text-gray-default text-sm">last seen</p>
               </div>
+              {/* <BiArrowBack className="mx-5 ml-auto  text-xl text-gray-dark" /> */}
             </div>
           </div>
-          <div className="h-full p-4 flex  overflow-y-scroll overflow-x-hidden scrollbar relative">
+          <div className="h-full p-2 no-scrollbar  lg:p-4 flex  overflow-y-scroll overflow-x-hidden lg:scrollbar relative">
             {messages.length ? (
               <div className="flex w-full flex-col ">
                 <div className="flex flex-col gap-2 w-full h-full ">
@@ -103,7 +111,7 @@ const Chat = () => {
               </p>
             )}
           </div>
-          <div className="p-4 mt-auto items-stretch ">
+          <div className="p-2 sm:p-4 mt-auto items-stretch w-full ">
             <MessagesForm />
           </div>
         </>

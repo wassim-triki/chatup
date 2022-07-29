@@ -40,17 +40,20 @@ const MessagesForm = () => {
     }
   };
   return (
-    <form className="flex items-center gap-4 " onSubmit={handleSubmit}>
+    <form
+      className="flex items-center gap-2 sm:gap-4 w-full"
+      onSubmit={handleSubmit}
+    >
       <div
-        className={`flex-1  ${
+        className={`flex-1 ${
           isDark ? 'bg-dark-80' : 'bg-gray-light'
-        } rounded-full flex items-stretch h-12`}
+        } rounded-full flex items-stretch h-12 w-full`}
       >
         <div className={`message-form-icons ${isDark && 'text-white'}`}>
           <BsEmojiSmile />
         </div>
         <input
-          className="bg-transparent flex-1 outline-none placeholder:text-dark-70"
+          className="text-sm sm:text-base bg-transparent flex-1  outline-none placeholder:text-dark-70"
           placeholder="Say something"
           type="text"
           onChange={(e) => setMsg(e.target.value)}
@@ -67,7 +70,7 @@ const MessagesForm = () => {
       </div>
       <button
         type="submit"
-        className="bg-green-dark h-12 w-12 flex items-center justify-center text-white rounded-full text-2xl"
+        className="bg-green-dark h-12 w-12 shrink-0 grow-0 flex items-center justify-center text-white rounded-full text-2xl "
       >
         <RiSendPlaneFill className="mr-1 mt-1" />
       </button>

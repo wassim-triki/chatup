@@ -9,17 +9,19 @@ import {
 import Chat from '../components/Chat';
 import Contacts from '../components/Chats';
 import SearchInput from '../components/SearchInput';
+import useChat from '../context/ChatContext/ChatState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 
 export const Main = () => {
   const { isDark } = useDarkMode();
+  const { openChat } = useChat();
   return (
-    <main className="flex flex-col gap-4">
-      <div className="flex gap-7 items-center">
-        <div className="w-[300px]">
+    <main className="flex flex-col gap-2 lg:gap-4 overflow-x-hidden">
+      <div className="flex gap-7 items-center ">
+        <div className="w-full lg:w-[300px]">
           <SearchInput />
         </div>
-        <div className="flex-1 flex gap-4 justify-end">
+        <div className="hidden flex-1 lg:flex gap-4 justify-end">
           <button
             className={`${
               isDark
@@ -31,20 +33,14 @@ export const Main = () => {
           </button>
         </div>
       </div>
-      <div className="flex gap-7 mb-7 h-[calc(100vh-220px)]">
-        <div className="w-[300px]">
+      <div className="flex gap-7 lg:mb-7 h-[calc(100vh-138px)] lg:h-[calc(100vh-220px)]">
+        <div className={`${openChat && 'hidden'} w-full lg:w-[300px]`}>
           <Contacts />
         </div>
-        <div className="flex-1">
+        <div className={`${!openChat && 'hidden'} lg:flex-1 w-full`}>
           <Chat />
         </div>
-        {/* <div className="w-1/3">
-          <div></div>
-        </div> */}
       </div>
-
-      {/* <div className="col  bg-green-300 col-span-2 h-[100px]">users</div>
-      <div className="col  bg-blue-300 col-span-4 h-[100px]">chat</div> */}
     </main>
   );
 };

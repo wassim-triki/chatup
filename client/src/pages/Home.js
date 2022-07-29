@@ -14,11 +14,10 @@ const Home = () => {
     <div
       className={`h-screen w-full bg-gray-light ${
         isDark && 'bg-dark-100'
-      } px-[300px] flex flex-col`}
+      } px-2  sm:bg-green-500 md:px-[50px] lg:[100px] 2xl:px-[300px] flex flex-col`}
     >
       <Header />
       <Main />
-      {/* {data && data?.map(({ email }) => <li key={email}>{email}</li>)} */}
     </div>
   );
 };

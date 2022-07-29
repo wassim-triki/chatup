@@ -9,9 +9,9 @@ const Header = () => {
   const { isDark } = useDarkMode();
   return (
     <header
-      className={` h-20 flex items-center  ${
+      className={`h-16 lg:h-20 flex items-center  ${
         isDark ? 'text-white' : 'text-gray-dark'
-      } font-fira mb-10 `}
+      } font-fira lg:mb-10 `}
     >
       <div className="flex items-center gap-1">
         {/* <BsFillChatDotsFill className="text-3xl text-green-dark" /> */}

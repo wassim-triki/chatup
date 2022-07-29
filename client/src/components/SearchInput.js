@@ -55,10 +55,10 @@ const SearchInput = () => {
         </button>
 
         <input
-          className={`outline-none h-full w-full  text-sm placeholder:text-gray-dark pr-7  ${
+          className={`outline-none h-full w-full  text-sm  pr-7  ${
             isDark
               ? 'bg-dark-90 text-white placeholder:text-dark-70'
-              : 'text-gray-dark'
+              : 'text-gray-dark placeholder:text-gray-dark'
           }`}
           type="text"
           placeholder="SEARCH"

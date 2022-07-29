@@ -32,7 +32,7 @@ const UserMenu = ({ myRef }) => {
   return (
     <div
       ref={myRef}
-      className={` w-48 p-2 dropdown text-sm  ${
+      className={` z-50 w-48 p-2 dropdown text-sm  ${
         isDark ? 'bg-dark-90 text-white ' : 'text-gray-dark'
       }`}
     >
@@ -40,8 +40,8 @@ const UserMenu = ({ myRef }) => {
         <>
           {idx == items.length - 1 && (
             <div
-              className={`h-[1px] bg-gray-200 ${
-                isDark && 'bg-dark-80'
+              className={`h-[1px]  ${
+                isDark ? 'bg-dark-80' : 'bg-gray-200'
               } w-full my-2`}
             ></div>
           )}
@@ -53,25 +53,6 @@ const UserMenu = ({ myRef }) => {
           />
         </>
       ))}
-      {/* <div
-        className={`hover:bg-gray-100 rounded-lg p-2 flex items-center gap-1 ${
-          isDark && 'hover:bg-dark-80'
-        }`}
-      >
-        <BiUserCircle className="text-lg" />
-        Profile
-      </div>
-      <div
-        onClick={toggleDarkMode}
-        className="hover:bg-gray-100 rounded-lg p-2 flex items-center gap-1"
-      >
-        <CgDarkMode className="text-lg" />
-        Dark Mode
-      </div>
-      <div className="h-[1px] w-full bg-gray-200 my-2"></div>
-      <div onClick={handleLogout} className="hover:bg-gray-100 rounded-lg p-2">
-        Logout
-      </div> */}
     </div>
   );
 };
