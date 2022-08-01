@@ -17,7 +17,6 @@ export const SocketProvider = ({ children }) => {
       socket.off('connect');
     };
   }, [socket]);
-
   const connectUser = (id) => {
     socket.emit('user_connected', id);
   };
@@ -46,7 +45,6 @@ export const SocketProvider = ({ children }) => {
   const receiveMessage = (callback) => {
     socket.on('receive_message', callback);
   };
-
   return (
     <SocketContext.Provider
       value={{
