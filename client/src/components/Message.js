@@ -55,7 +55,7 @@ const Message = ({ _id, sender, createdAt, content, idx }) => {
         </div>
 
         <div
-          className={`flex flex-1 items-center justify-center max-w-full min-w-[70px]   p-4 rounded-xl bg-gray-light break-all  font-light  ${
+          className={`flex text-sm flex-1 items-center justify-center max-w-full min-w-[70px]   p-4 rounded-xl bg-gray-light break-all  font-light  ${
             sender === auth.user._id
               ? 'rounded-tr-none bg-indigo-default text-white'
               : isDark
