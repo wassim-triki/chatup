@@ -28,7 +28,7 @@ const SearchResultItem = ({ _id, picture, firstName, lastName, email }) => {
       } cursor-pointer gap-4 rounded-2xl items-center `}
     >
       <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-        <img className="object-cover object-center" src={picture} />
+        <img className="object-cover w-12 h-12 object-center" src={picture} />
       </div>
       <div className="flex flex-col">
         <p

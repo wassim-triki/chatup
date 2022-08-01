@@ -18,10 +18,10 @@ export const Main = () => {
   return (
     <main className="flex flex-col gap-2 lg:gap-4 overflow-x-hidden">
       <div className="flex gap-7 items-center ">
-        <div className="w-full lg:w-[300px]">
+        <div className="w-full lsg:w-[300px]">
           <SearchInput />
         </div>
-        <div className="hidden flex-1 lg:flex gap-4 justify-end">
+        {/* <div className="hidden flex-1 lg:flex gap-4 justify-end">
           <button
             className={`${
               isDark
@@ -31,13 +31,21 @@ export const Main = () => {
           >
             <BsPlusCircle className="text-xl" /> <p>GOURP CHAT</p>
           </button>
-        </div>
+        </div> */}
       </div>
-      <div className="flex gap-7 lg:mb-7 h-[calc(100vh-120px)] lg:h-[calc(100vh-220px)]">
-        <div className={`${openChat && 'hidden'} w-full lg:w-[300px]`}>
+      <div className="flex gap-2 lg:gap-5  lg:mb-7 h-[calc(100vh-120px)] lg:h-[calc(100vh-220px)]">
+        <div
+          className={`${
+            openChat ? 'hidden md:flex' : 'flex'
+          } w-full md:min-w-[150px] md:max-w-[300px] shrink-[2]`}
+        >
           <Contacts />
         </div>
-        <div className={`${!openChat && 'hidden'} lg:flex-1 w-full`}>
+        <div
+          className={`${
+            openChat ? 'flex' : 'hidden md:flex'
+          } w-full shrink-[1]`}
+        >
           <Chat />
         </div>
       </div>
