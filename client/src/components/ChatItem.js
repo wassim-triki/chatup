@@ -47,7 +47,7 @@ const ContactItem = ({ chat }) => {
       <div className="relative w-min self-start ">
         <div className="w-12 h-12 rounded-full overflow-hidden ">
           <img
-            className="object-cover object-center"
+            className="object-cover w-12 h-12 object-center"
             src={chatUser ? chatUser.picture : chat.groupPic}
             alt=""
           />
