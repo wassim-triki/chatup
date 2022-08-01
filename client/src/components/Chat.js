@@ -68,22 +68,22 @@ const Chat = () => {
                 onClick={() => setOpenChat(null)}
                 className=" h-full w-12 flex justify-center items-center"
               >
-                <BiArrowBack className="text-2xl text-dark-80" />
+                <BiArrowBack className="text-xl text-dark-70" />
               </button>
-              <div className="h-12 w-12 rounded-full overflow-hidden mr-2">
+              <div className="h-10 w-10 lg:h-12 lg:w-12 rounded-full overflow-hidden mr-2">
                 <img
-                  className="h-12 w-12 object-cover object-center"
+                  className="h-10 w-10 lg:h-12 lg:w-12 object-cover object-center"
                   src={!openChat.isGroupChat && chatUser?.picture}
                   alt=""
                 />
               </div>
-              <div>
+              <div className="text-sm">
                 <p>
                   {openChat.isGroupChat
                     ? openChat.chatName
                     : `${chatUser?.firstName} ${chatUser?.lastName}`}
                 </p>
-                <p className="text-gray-default text-sm">last seen</p>
+                <p className="text-gray-default text-xs">last seen</p>
               </div>
               {/* <BiArrowBack className="mx-5 ml-auto  text-xl text-gray-dark" /> */}
             </div>

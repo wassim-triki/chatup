@@ -45,7 +45,7 @@ const SearchInput = () => {
       <div
         className={`flex  ${
           isDark ? 'bg-dark-90' : 'bg-white'
-        }  rounded-full items-center h-14 overflow-hidden font-poppins `}
+        }  rounded-full items-center h-10 lg:h-14 overflow-hidden font-poppins `}
       >
         <button
           className=" h-full w-14 flex justify-center items-center

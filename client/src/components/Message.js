@@ -10,12 +10,12 @@ const Message = ({ _id, sender, createdAt, content, idx }) => {
   const { auth } = useAuth();
   return (
     <div
-      className={`w-full   h-fit font-poppins flex ${
+      className={`w-full h-fit font-poppins flex text-xs lg:text-base ${
         sender === auth.user._id ? 'justify-end' : 'justify-start'
       }`}
     >
       <div
-        className={` max-w-[80%] min-h-[70px] h-full flex min-w-[70px] gap-4 ${
+        className={` lg:max-w-[80%] min-h-[70px] h-full flex min-w-[70px] gap-4 ${
           sender === auth.user._id && 'flex-row-reverse'
         }`}
       >

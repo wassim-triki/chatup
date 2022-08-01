@@ -33,7 +33,7 @@ export const Main = () => {
           </button>
         </div>
       </div>
-      <div className="flex gap-7 lg:mb-7 h-[calc(100vh-138px)] lg:h-[calc(100vh-220px)]">
+      <div className="flex gap-7 lg:mb-7 h-[calc(100vh-120px)] lg:h-[calc(100vh-220px)]">
         <div className={`${openChat && 'hidden'} w-full lg:w-[300px]`}>
           <Contacts />
         </div>

@@ -31,7 +31,7 @@ const NotificationsContainer = () => {
       onClick={handleClick}
       className={`hover:bg-gray-200 ${isDark && 'hover:bg-dark-90 '} ${
         !isDark && 'active:bg-gray-300'
-      } cursor-pointer rounded-full w-9 h-9 flex justify-center items-center relative`}
+      } cursor-pointer rounded-full w-9 h-9 flex justify-center items-center lg:relative `}
     >
       <VscBell className="text-2xl text-center" />
       {auth.user.receivedRequests.length ? (

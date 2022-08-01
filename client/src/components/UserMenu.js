@@ -32,7 +32,7 @@ const UserMenu = ({ myRef }) => {
   return (
     <div
       ref={myRef}
-      className={` z-50 w-48 p-2 dropdown text-sm  ${
+      className={` z-50 w-48 p-2 dropdown text-xs md:text-base ${
         isDark ? 'bg-dark-90 text-white ' : 'text-gray-dark'
       }`}
     >
