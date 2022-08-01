@@ -53,7 +53,7 @@ const signJWT = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: EXPIRES_IN });
 
 module.exports.signinUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).populate('receivedRequests');
   if (user && (await bcrypt.compare(password, user.password))) {
     delete password;
     const {
@@ -120,7 +120,9 @@ module.exports.logoutUser = async (req, res) => {
 };
 module.exports.getAuthUser = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.userId });
+    const user = await User.findOne({ _id: req.userId }).populate(
+      'receivedRequests'
+    );
     return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: error.message });

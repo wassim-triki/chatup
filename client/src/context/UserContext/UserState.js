@@ -31,8 +31,11 @@ export const UserProvider = ({ children }) => {
     loginUser(data);
   }, [data]);
   useEffect(() => {
-    console.log(error);
+    // console.log(error);
   }, [error]);
+  useEffect(() => {
+    console.log(auth);
+  }, [auth]);
   const loginUser = (user) => {
     user?._id && connectUser(user._id);
     const payload = { user, isAuth: user != null };

@@ -136,6 +136,7 @@ io.on('connection', (socket) => {
     if (!user) return;
     const { socketId } = user;
     console.log(socketId);
+    console.log(message);
     socket.to(socketId).emit('receive_message', message);
   });
   socket.on('disconnect', () => {

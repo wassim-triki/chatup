@@ -24,10 +24,10 @@
     @apply w-full bg-white p-2 rounded-3xl flex flex-col h-full;
   }
   .dropdown {
-    @apply top-[120%] right-0 absolute bg-white p-2 shadow-md rounded-xl flex flex-col;
+    @apply top-[120%] right-0 absolute bg-white p-2 shadow-lg rounded-xl flex flex-col;
   }
   .btn-notif {
-    @apply hover:opacity-80 active:opacity-100 text-white px-6 py-2 rounded-lg;
+    @apply hover:opacity-80 active:opacity-100 flex-1 text-white px-4 py-1 text-sm rounded-full;
   }
   .form {
     @apply flex flex-col items-stretch gap-4  w-full;

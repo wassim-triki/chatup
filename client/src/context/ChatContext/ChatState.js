@@ -10,7 +10,6 @@ export const ChatProvider = ({ children }) => {
 
   const { socket, getUserOnlineStatus } = useSocket();
 
-  useEffect(() => console.log(chats), [chats]);
   useEffect(() => {
     getUserOnlineStatus((uid) => {
       setChats(

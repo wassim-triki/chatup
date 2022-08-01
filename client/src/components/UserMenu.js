@@ -2,6 +2,7 @@ import React from 'react';
 import { BiUserCircle } from 'react-icons/bi';
 import { CgDarkMode } from 'react-icons/cg';
 import { toast } from 'react-toastify';
+import useChat from '../context/ChatContext/ChatState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import useAuth from '../context/UserContext/UserState';
 import fetchData from '../helpers/fetchData';
@@ -10,10 +11,12 @@ import UserMenuItem from './UserMenuItem';
 const UserMenu = ({ myRef }) => {
   const { isDark, toggleDarkMode } = useDarkMode();
   const { logoutUser } = useAuth();
+  const { setOpenChat } = useChat();
   const handleLogout = async () => {
     const resp = await fetchData('/auth/logout');
     const { data, message: error } = resp;
     data && toast(data.message, { type: 'success' });
+    setOpenChat(null);
     logoutUser();
   };
   const items = [
@@ -46,7 +49,7 @@ const UserMenu = ({ myRef }) => {
             ></div>
           )}
           <UserMenuItem
-            key={idx}
+            key={label}
             Icon={icon}
             label={label}
             handleClick={handleClick}

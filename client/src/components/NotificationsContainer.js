@@ -23,7 +23,7 @@ const NotificationsContainer = () => {
     setShow(false);
   });
   const handleClick = (e) => {
-    setShow(true);
+    setShow(!show);
   };
 
   return (
@@ -35,7 +35,7 @@ const NotificationsContainer = () => {
     >
       <VscBell className="text-2xl text-center" />
       {auth.user.receivedRequests.length ? (
-        <div className="absolute w-3 h-3 bg-orange-default rounded-full top-1 right-[5px]"></div>
+        <div className="absolute w-3 h-3 bg-orange-default rounded-full top-5 right-[70px] lg:top-1 lg:right-[5px]"></div>
       ) : (
         ''
       )}

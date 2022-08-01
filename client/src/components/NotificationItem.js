@@ -25,7 +25,7 @@ const NotificationItem = ({ _id, picture, firstName, lastName }) => {
   return (
     <div
       key={_id}
-      className={`w-[300px] flex flex-col gap-2  font-poppins ${
+      className={`w-full flex flex-col gap-2  font-poppins ${
         isDark ? 'hover:bg-dark-80' : 'hover:bg-gray-100'
       }  rounded-xl p-2`}
     >

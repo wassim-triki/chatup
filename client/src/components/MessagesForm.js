@@ -35,6 +35,7 @@ const MessagesForm = () => {
 
       setMsg('');
       setMessages((messages) => [...messages, sentMsg]);
+      console.log(sentMsg);
     } catch (error) {
       console.log(error);
     }

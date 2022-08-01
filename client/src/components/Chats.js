@@ -7,6 +7,7 @@ import ChatItem from './ChatItem';
 import useSocket from '../context/SocketContext/SocketState';
 import useChat from '../context/ChatContext/ChatState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
+import { IoPeopleOutline } from 'react-icons/io5';
 
 const Contacts = () => {
   const { auth, acceptedRequest } = useAuth();
@@ -33,7 +34,18 @@ const Contacts = () => {
       {chats?.length ? (
         chats.map((chat) => <ChatItem key={chat._id} chat={chat} />)
       ) : (
-        <p className="text-gray-default  mx-auto my-auto">No contacts yet...</p>
+        <div className="flex flex-col items-center justify-center h-full">
+          <IoPeopleOutline
+            className={`text-9xl ${isDark ? 'text-dark-80' : 'text-light-80'}`}
+          />
+          <p
+            className={`${
+              isDark ? 'text-dark-75' : 'text-light-75'
+            } font-normal text-lg`}
+          >
+            No Chats.
+          </p>
+        </div>
       )}
     </div>
   );

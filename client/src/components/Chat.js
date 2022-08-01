@@ -10,6 +10,7 @@ import { useRef } from 'react';
 import Message from './Message';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import { BiArrowBack } from 'react-icons/bi';
+import { TbMessages } from 'react-icons/tb';
 
 const Chat = () => {
   const { auth } = useAuth();
@@ -20,12 +21,13 @@ const Chat = () => {
 
   useEffect(() => {
     receiveMessage((msg) => {
+      console.log(msg);
       setMessages((messages) => [...messages, msg]);
     });
   }, [socket]);
   const messagesEndRef = useRef(null);
   useEffect(() => {
-    console.log('OPEN CHAT:', openChat);
+    // console.log('OPEN CHAT:', openChat);
   }, [openChat]);
   useEffect(() => {
     !openChat?.chat.isGroupChat &&
@@ -106,9 +108,20 @@ const Chat = () => {
                 </div>
               </div>
             ) : (
-              <p className="text-gray-400 w-full flex items-center justify-center">
-                No messages yet...
-              </p>
+              <div className="h-full w-full flex flex-col justify-center items-center">
+                <TbMessages
+                  className={`text-9xl ${
+                    isDark ? 'text-dark-80' : 'text-light-80'
+                  }`}
+                />
+                <p
+                  className={`${
+                    isDark ? 'text-dark-75' : 'text-light-75'
+                  }  w-full flex items-center justify-center`}
+                >
+                  No Messages.
+                </p>
+              </div>
             )}
           </div>
           <div className="p-2 sm:p-4 mt-auto items-stretch w-full ">

@@ -40,6 +40,7 @@ export const SocketProvider = ({ children }) => {
     socket.on('accepted_request', callback);
   };
   const sendMessage = (data) => {
+    console.log(data);
     socket.emit('send_message', data);
   };
   const receiveMessage = (callback) => {
