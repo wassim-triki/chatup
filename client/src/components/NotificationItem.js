@@ -31,7 +31,11 @@ const NotificationItem = ({ _id, picture, firstName, lastName }) => {
     >
       <div className="flex items-start gap-2">
         <div className="w-14 h-14 shrink-0 rounded-full overflow-hidden ">
-          <img className="object-cover object-center" src={picture} alt="" />
+          <img
+            className="object-cover w-14 h-14 object-center"
+            src={picture}
+            alt=""
+          />
         </div>
         <div className="flex flex-col gap-1">
           <div>
