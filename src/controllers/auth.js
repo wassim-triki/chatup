@@ -26,14 +26,18 @@ const capitalize = (str) => {
 const removeExtraSpaces = (str) => str.replace(/\s\s+/g, ' ');
 module.exports.createUser = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email.toLowerCase() });
     if (user) {
       throw new Error('Email Already In Use.');
     }
     let userData = {};
     for (const key in req.body) {
       if (req.body[key]) {
-        userData = { ...userData, [key]: req.body[key] };
+        userData = {
+          ...userData,
+          [key]: req.body[key],
+          email: req.body.email.toLowerCase(),
+        };
       }
     }
     const hashedPassword = await hashPassword(userData.password);
@@ -53,7 +57,9 @@ const signJWT = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: EXPIRES_IN });
 
 module.exports.signinUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email }).populate('receivedRequests');
+  const user = await User.findOne({ email: email.toLowerCase() }).populate(
+    'receivedRequests'
+  );
   if (user && (await bcrypt.compare(password, user.password))) {
     delete password;
     const {
