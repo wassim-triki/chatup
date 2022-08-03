@@ -20,6 +20,7 @@
 - Sending & Receiving friend requests in real-time
 - Realt-time chatting
 - text and images messages
+- Dark mode
 - Deleting chats
 - Updating user profile
 
