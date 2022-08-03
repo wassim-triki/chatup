@@ -100,14 +100,16 @@ const removeOnlineUser = (_socketId) => {
   onlineUsers = onlineUsers.filter(({ socketId }) => socketId !== _socketId);
 };
 const getUserSocket = (uid) => onlineUsers.find(({ userId }) => userId === uid);
+const getUserId = (socket) =>
+  onlineUsers.find(({ socketId }) => socketId === socket);
 
 io.on('connection', (socket) => {
-  console.log(`User Connected: ${socket.id}`);
-
+  console.log(`New Socket: ${socket.id}`, 'onlineUsers:', onlineUsers);
+  console.log(getUserId(socket.id));
+  socket.broadcast.emit('online_status', getUserId(socket.id));
   socket.on('user_connected', (userId) => {
     addOnlineUser(userId, socket.id);
     console.log('Online users: ', onlineUsers.length);
-    socket.broadcast.emit('online_status', userId);
   });
   socket.on('user_disconnected', (socketId) => {
     removeOnlineUser(socketId);
@@ -125,18 +127,13 @@ io.on('connection', (socket) => {
   socket.on('accept_request', async ({ senderId, chat }) => {
     const sender = getUserSocket(senderId);
     const senderSocket = sender?.socketId || null;
-    // const chat = await Chat.findOne({
-    //   users: { $all: [receiverId, senderId] },
-    // }).populate('users', '-password');
     socket.to(senderSocket).emit('accepted_request', chat);
   });
   socket.on('send_message', ({ receiver, message }) => {
-    // console.log(message);
     const user = getUserSocket(receiver) || null;
     if (!user) return;
     const { socketId } = user;
     console.log(socketId);
-    console.log(message);
     socket.to(socketId).emit('receive_message', message);
   });
   socket.on('disconnect', () => {

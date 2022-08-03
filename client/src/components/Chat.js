@@ -11,6 +11,7 @@ import Message from './Message';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import { BiArrowBack } from 'react-icons/bi';
 import { TbMessages } from 'react-icons/tb';
+import UserPicContainer from './UserPicContainer';
 
 const Chat = () => {
   const { auth } = useAuth();
@@ -72,20 +73,21 @@ const Chat = () => {
               >
                 <BiArrowBack className="text-xl text-dark-70" />
               </button>
-              <div className="h-10 w-10 lg:h-12 lg:w-12 rounded-full overflow-hidden mr-2">
-                <img
-                  className="h-10 w-10 lg:h-12 lg:w-12 object-cover object-center"
-                  src={!openChat.isGroupChat && chatUser?.picture}
-                  alt=""
-                />
-              </div>
-              <div className="text-sm">
+
+              <UserPicContainer
+                pic={!openChat.isGroupChat && chatUser?.picture}
+                className="h-10 w-10"
+                isOnline={openChat.isOnline}
+              />
+              <div className="text-sm ml-2">
                 <p>
                   {openChat.isGroupChat
                     ? openChat.chatName
                     : `${chatUser?.firstName} ${chatUser?.lastName}`}
                 </p>
-                <p className="text-gray-default text-xs">last seen</p>
+                <p className="text-gray-default text-xs">
+                  {openChat.isOnline ? 'Online' : 'Offline'}
+                </p>
               </div>
               {/* <BiArrowBack className="mx-5 ml-auto  text-xl text-gray-dark" /> */}
             </div>

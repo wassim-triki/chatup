@@ -8,6 +8,7 @@ import getFullName from '../helpers/getFullName';
 import truncateStr from '../helpers/truncateStr';
 import useSocket from '../context/SocketContext/SocketState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
+import UserPicContainer from './UserPicContainer';
 
 const ContactItem = ({ chat }) => {
   const { setOpenChat, openChat, messages } = useChat();
@@ -24,6 +25,9 @@ const ContactItem = ({ chat }) => {
   useEffect(() => {
     !chat.isGroupChat && setChatUser(getChatUser(auth.user, chat.users));
   }, [chat]);
+  useEffect(() => {
+    console.log(chat);
+  }, []);
 
   const handleClick = async (e) => {
     try {
@@ -45,7 +49,7 @@ const ContactItem = ({ chat }) => {
       }`}
     >
       <div className="relative w-min self-start ">
-        <div className="w-12 h-12 rounded-full overflow-hidden ">
+        {/* <div className="w-12 h-12 rounded-full overflow-hidden ">
           <img
             className="object-cover w-12 h-12 object-center"
             src={chatUser ? chatUser.picture : chat.groupPic}
@@ -54,7 +58,11 @@ const ContactItem = ({ chat }) => {
         </div>
         {chat.isOnline && (
           <div className="absolute w-[13px] h-[13px] border-2 border-white bg-green-light right-0 bottom-0 rounded-full"></div>
-        )}
+        )} */}
+        <UserPicContainer
+          pic={chatUser ? chatUser.picture : chat.groupPic}
+          isOnline={chat.isOnline}
+        />
       </div>
       <div className={` flex flex-col flex-1  gap-1 whitespace-nowrap`}>
         <div
