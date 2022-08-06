@@ -99,24 +99,21 @@ const addOnlineUser = (uid, sid) => {
 const removeOnlineUser = (_socketId) => {
   onlineUsers = onlineUsers.filter(({ socketId }) => socketId !== _socketId);
 };
-const getUserSocket = (uid) => onlineUsers.find(({ userId }) => userId === uid);
-const getUserId = (socket) =>
+const getUserById = (uid) => onlineUsers.find(({ userId }) => userId === uid);
+const getUserBySocket = (socket) =>
   onlineUsers.find(({ socketId }) => socketId === socket);
 
 io.on('connection', (socket) => {
-  console.log(`New Socket: ${socket.id}`, 'onlineUsers:', onlineUsers);
-  console.log(getUserId(socket.id));
-  socket.broadcast.emit('online_status', getUserId(socket.id));
+  // console.log(`New Socket: ${socket.id}`, 'onlineUsers:', onlineUsers);
   socket.on('user_connected', (userId) => {
     addOnlineUser(userId, socket.id);
     console.log('Online users: ', onlineUsers.length);
-  });
-  socket.on('user_disconnected', (socketId) => {
-    removeOnlineUser(socketId);
-    console.log('Online users: ' + onlineUsers.length);
+    socket.emit('online_users', onlineUsers);
+
+    // console.log('socketId:', getUserBySocket(socket.id).userId);
   });
   socket.on('send_notification', async ({ senderId, receiverId }) => {
-    const receiver = getUserSocket(receiverId);
+    const receiver = getUserById(receiverId);
     const socketId = receiver?.socketId || null;
     const isOnline = socketId != null;
     if (isOnline && senderId) {
@@ -125,18 +122,20 @@ io.on('connection', (socket) => {
     }
   });
   socket.on('accept_request', async ({ senderId, chat }) => {
-    const sender = getUserSocket(senderId);
+    const sender = getUserById(senderId);
     const senderSocket = sender?.socketId || null;
     socket.to(senderSocket).emit('accepted_request', chat);
   });
   socket.on('send_message', ({ receiver, message }) => {
-    const user = getUserSocket(receiver) || null;
+    const user = getUserById(receiver) || null;
     if (!user) return;
     const { socketId } = user;
     console.log(socketId);
     socket.to(socketId).emit('receive_message', message);
   });
   socket.on('disconnect', () => {
-    console.log('a user disconnected');
+    // console.log('Socket disconnected');
+    removeOnlineUser(socket.id);
+    console.log('Online users: ' + onlineUsers.length);
   });
 });

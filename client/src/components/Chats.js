@@ -14,15 +14,26 @@ const Contacts = () => {
   const { isDark } = useDarkMode();
   const { socket, receiveAcceptedChat, receiveMessage, getUserOnlineStatus } =
     useSocket();
-  const { setChats, addToChats, chats } = useChat();
+  const {
+    setInitialChats,
+    addToChats,
+    initialChats,
+    updatedChats,
+    setUpdatedChats,
+  } = useChat();
   const { data, error, loading } = useFetch('/chat/myChats', [auth]);
 
   useEffect(() => {
-    setChats(data);
+    setInitialChats(data);
+    setUpdatedChats(data);
   }, [data]);
 
   useEffect(() => {
-    receiveAcceptedChat((chat) => setChats((c) => [chat, ...c]));
+    console.log(initialChats, updatedChats);
+  }, [updatedChats, initialChats]);
+
+  useEffect(() => {
+    receiveAcceptedChat((chat) => initialChats((c) => [chat, ...c]));
   }, [socket]);
 
   return (
@@ -31,8 +42,8 @@ const Contacts = () => {
         isDark && 'bg-dark-90 '
       }  font-fira overflow-y-auto scrollbar`}
     >
-      {chats?.length ? (
-        chats.map((chat) => <ChatItem key={chat._id} chat={chat} />)
+      {updatedChats?.length ? (
+        updatedChats.map((chat) => <ChatItem key={chat._id} chat={chat} />)
       ) : (
         <div className="flex flex-col items-center justify-center h-full">
           <IoPeopleOutline

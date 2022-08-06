@@ -1,31 +1,33 @@
 import { useContext, useEffect, useState } from 'react';
 import SocketContext from './SocketContext';
 import { io } from 'socket.io-client';
-const PROD = 'https://app-chatup.herokuapp.com';
+import useAuth from '../UserContext/UserState';
 const DEV = 'http://localhost:8080';
 export const SocketProvider = ({ children }) => {
+  const { auth } = useAuth();
   const [socket, setSocket] = useState(
-    io(DEV, {
+    io(process.env.REACT_APP_API_URL || DEV, {
       withCredentials: true,
     })
   );
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected to Socket');
+      connectUserToSocket(auth.user._id);
     });
     return () => {
       socket.off('connect');
+      socket.disconnect();
+      console.log('disconnect');
     };
   }, [socket]);
-  const connectUser = (id) => {
+  const connectUserToSocket = (id) => {
     socket.emit('user_connected', id);
   };
-  const getUserOnlineStatus = (callback) => {
-    socket.on('online_status', callback);
+  const getOnlineUsers = (callback) => {
+    socket.on('online_users', callback);
   };
-  const disconnectUser = () => {
-    socket.emit('user_disconnected', socket.id);
-  };
+
   const sendNotification = (senderId, receiverId) => {
     socket.emit('send_notification', {
       senderId,
@@ -49,14 +51,12 @@ export const SocketProvider = ({ children }) => {
     <SocketContext.Provider
       value={{
         socket,
-        connectUser,
-        disconnectUser,
         sendNotification,
         receiveNotification,
         receiveAcceptedChat,
         sendMessage,
         receiveMessage,
-        getUserOnlineStatus,
+        getOnlineUsers,
       }}
     >
       {children}

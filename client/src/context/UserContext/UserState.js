@@ -23,7 +23,7 @@ export const initialState = {
 
 export const UserProvider = ({ children }) => {
   const [auth, dispatch] = useReducer(userReducer, initialState);
-  const { connectUser, disconnectUser, receiveNotification } = useSocket();
+  // const { connectUser, disconnectUser, receiveNotification } = useSocket();
   const { data, error, loading } = useFetch('/auth/me');
   const navigate = useNavigate();
 
@@ -37,12 +37,12 @@ export const UserProvider = ({ children }) => {
     console.log(auth);
   }, [auth]);
   const loginUser = (user) => {
-    user?._id && connectUser(user._id);
+    // user?._id && connectUser(user._id);
     const payload = { user, isAuth: user != null };
     dispatch({ type: LOGIN_USER, payload });
   };
   const logoutUser = () => {
-    disconnectUser();
+    // disconnectUser();
     dispatch({ type: LOGOUT_USER });
   };
   // const sendRequest = (receiverId) => {
@@ -50,9 +50,9 @@ export const UserProvider = ({ children }) => {
   //   dispatch({ type: SEND_REQUEST, payload: receiverId });
   // };
   const receiveRequest = () => {
-    receiveNotification((sender) => {
-      dispatch({ type: RECEIVE_REQUEST, payload: sender });
-    });
+    // receiveNotification((sender) => {
+    //   dispatch({ type: RECEIVE_REQUEST, payload: sender });
+    // });
   };
   const acceptRequest = (senderId) => {
     dispatch({ type: ACCEPT_REQUEST, payload: senderId });

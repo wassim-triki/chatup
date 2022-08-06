@@ -11,7 +11,7 @@ import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import UserPicContainer from './UserPicContainer';
 
 const ContactItem = ({ chat }) => {
-  const { setOpenChat, openChat, messages } = useChat();
+  const { setOpenChat, openChat, messages, setChats } = useChat();
   const { auth } = useAuth();
   const { isDark } = useDarkMode();
   const [chatUser, setChatUser] = useState(null);
@@ -26,7 +26,27 @@ const ContactItem = ({ chat }) => {
     !chat.isGroupChat && setChatUser(getChatUser(auth.user, chat.users));
   }, [chat]);
   useEffect(() => {
-    console.log(chat);
+    // getUserOnlineStatus((uid) => {
+    //   setChats((chats) =>
+    //     chats
+    //       .map((chat) => {
+    //         const newUsers = chat.users.filter(
+    //           (user) => user._id !== auth.user._id
+    //         );
+    //         return { ...chat, users: newUsers };
+    //       })
+    //       .map((chat) => {
+    //         // console.log({
+    //         //   ...chat,
+    //         //   isOnline: chat.users.some((user) => user._id === uid),
+    //         // });
+    //         return {
+    //           ...chat,
+    //           isOnline: chat.users.some((user) => user._id === uid),
+    //         };
+    //       })
+    //   );
+    // });
   }, []);
 
   const handleClick = async (e) => {

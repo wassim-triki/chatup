@@ -9,11 +9,9 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import parseJWT from '../helpers/parseJWT';
 import useAuth from '../context/UserContext/UserState';
 import Cookies from 'js-cookie';
-import useSocket from '../context/SocketContext/SocketState';
 import { ReactComponent as ChatupLogo } from '../assets/images/logo.svg';
 const Signin = () => {
   const { loginUser, auth } = useAuth();
-  const { socket, connectUser } = useSocket();
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: '',

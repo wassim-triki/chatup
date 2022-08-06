@@ -1,36 +1,20 @@
 import { useContext, useEffect, useState } from 'react';
-import useSocket from '../SocketContext/SocketState';
 import useAuth from '../UserContext/UserState';
 import ChatContext from './ChatContext';
 
 export const ChatProvider = ({ children }) => {
-  const [chats, setChats] = useState([]);
+  const [initialChats, setInitialChats] = useState([]);
+  const [updatedChats, setUpdatedChats] = useState(initialChats);
   const [openChat, setOpenChat] = useState(null);
   const [messages, setMessages] = useState([]);
-
-  const { socket, getUserOnlineStatus } = useSocket();
-
-  useEffect(() => {
-    getUserOnlineStatus((uid) => {
-      setChats(
-        chats?.map((chat) => ({
-          ...chat,
-          isOnline: chat.users.some(({ _id }) => _id === uid),
-        }))
-      );
-    });
-  }, [chats, socket]);
-  const beginChat = (receiver) => {
-    const activeChat = chats.chats.find((c) => receiver === c._id);
-    setChats({ ...chats, activeChat });
-  };
 
   return (
     <ChatContext.Provider
       value={{
-        chats,
-        setChats,
-        beginChat,
+        initialChats,
+        updatedChats,
+        setInitialChats,
+        setUpdatedChats,
         openChat,
         setOpenChat,
         messages,

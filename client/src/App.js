@@ -7,6 +7,7 @@ import PriveRouteNoAuth from './components/PriveRouteNoAuth';
 import useAuth from './context/UserContext/UserState';
 import Spinner from './components/Spinner';
 import NotFound from './pages/NotFound';
+import { SocketProvider } from './context/SocketContext/SocketState';
 
 function App() {
   const { loading } = useAuth();
@@ -30,7 +31,14 @@ function App() {
             <Route path="/signin" element={<Signin />} />
           </Route>
           <Route path="/" element={<PrivateRoute />}>
-            <Route path="/" element={<Home />} />
+            <Route
+              path="/"
+              element={
+                <SocketProvider>
+                  <Home />
+                </SocketProvider>
+              }
+            />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
