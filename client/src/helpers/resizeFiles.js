@@ -1,6 +1,6 @@
 import Compress from 'compress.js';
 
-const resizeFiles = async (files, size, maxWidth, maxHeight) => {
+const resizeFiles = async (files, size = 10, maxWidth, maxHeight) => {
   const compress = new Compress();
   const compressedFiles = await compress.compress(files, {
     size,

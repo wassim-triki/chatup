@@ -90,7 +90,7 @@ const Signup = () => {
       const url = '/auth/signup';
       let picURL = '';
       if (imageBlob) {
-        picURL = await uploadImage(imageBlob);
+        picURL = await uploadImage(imageBlob, true);
       }
 
       const resp = await axios.post(url, { ...data, picture: picURL });

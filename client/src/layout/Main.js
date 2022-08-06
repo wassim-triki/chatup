@@ -18,7 +18,7 @@ export const Main = () => {
   return (
     <main className="flex flex-col gap-2 lg:gap-4 overflow-x-hidden">
       <div className="flex gap-7 items-center ">
-        <div className="w-full lsg:w-[300px]">
+        <div className="w-full lg:w-[300px]">
           <SearchInput />
         </div>
         {/* <div className="hidden flex-1 lg:flex gap-4 justify-end">
@@ -33,7 +33,7 @@ export const Main = () => {
           </button>
         </div> */}
       </div>
-      <div className="flex gap-2 lg:gap-5  lg:mb-7 h-[calc(100vh-120px)] lg:h-[calc(100vh-220px)]">
+      <div className="flex gap-2 lg:gap-5  lg:mb-2 h-[calc(100vh-120px)] lg:h-[calc(100vh-212px)]">
         <div
           className={`${
             openChat ? 'hidden md:flex' : 'flex'

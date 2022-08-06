@@ -39,7 +39,7 @@ const NotificationItem = ({ _id, picture, firstName, lastName }) => {
         </div>
         <div className="flex flex-col gap-1">
           <div>
-            <p className="font-medium inline">
+            <p className="font-medium inline break-all hyphens-auto">
               {firstName + ' ' + lastName + ' '}
             </p>
             <p className="inline text-sm text-gray-default">

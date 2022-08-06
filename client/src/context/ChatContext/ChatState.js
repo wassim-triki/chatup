@@ -3,18 +3,15 @@ import useAuth from '../UserContext/UserState';
 import ChatContext from './ChatContext';
 
 export const ChatProvider = ({ children }) => {
-  const [initialChats, setInitialChats] = useState([]);
-  const [updatedChats, setUpdatedChats] = useState(initialChats);
+  const [chats, setChats] = useState([]);
   const [openChat, setOpenChat] = useState(null);
   const [messages, setMessages] = useState([]);
 
   return (
     <ChatContext.Provider
       value={{
-        initialChats,
-        updatedChats,
-        setInitialChats,
-        setUpdatedChats,
+        chats,
+        setChats,
         openChat,
         setOpenChat,
         messages,

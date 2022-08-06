@@ -76,6 +76,7 @@ module.exports.myChats = async (req, res) => {
   try {
     const userId = req.userId;
     const chats = await Chat.find({ users: userId })
+      .sort({ updatedAt: -1 })
       .populate('users', '-password')
       .populate('latestMessage');
 
@@ -109,6 +110,7 @@ module.exports.chatMessages = async (req, res) => {
   try {
     const { chatId } = req.params;
     const messages = await Message.find({ chat: chatId });
+    console.log(messages);
     res.status(200).json(messages);
   } catch (error) {
     res.status(500).json({ message: error.message });

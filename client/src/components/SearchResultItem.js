@@ -30,16 +30,16 @@ const SearchResultItem = ({ _id, picture, firstName, lastName, email }) => {
       <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
         <img className="object-cover w-12 h-12 object-center" src={picture} />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full overflow-hidden">
         <p
-          className={`whitespace-nowrap text-lg  font-medium ${
+          className={`whitespace-nowrap overflow-hidden text-ellipsis text-lg  font-medium ${
             isDark ? 'text-white' : 'text-gray-dark'
           }`}
         >
-          {truncateStr(firstName + ' ' + lastName, 20)}
+          {firstName + ' ' + lastName}
         </p>
-        <p className="whitespace-nowrap text-gray-default">
-          {truncateStr(email, 22)}
+        <p className="whitespace-nowrap overflow-hidden text-ellipsis text-gray-default">
+          {email}
         </p>
       </div>
     </div>

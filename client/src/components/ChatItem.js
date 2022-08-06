@@ -11,7 +11,7 @@ import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import UserPicContainer from './UserPicContainer';
 
 const ContactItem = ({ chat }) => {
-  const { setOpenChat, openChat, messages, setChats } = useChat();
+  const { setOpenChat, openChat, messages, setChats, chats } = useChat();
   const { auth } = useAuth();
   const { isDark } = useDarkMode();
   const [chatUser, setChatUser] = useState(null);
@@ -22,32 +22,13 @@ const ContactItem = ({ chat }) => {
       setLatestMessage(messages[messages.length - 1]);
     }
   }, [messages]);
+
+  useEffect(() => {
+    // setChats([chat, ...chats.filter((c) => c._id === chat._id)]);
+  }, [latestMessage]);
   useEffect(() => {
     !chat.isGroupChat && setChatUser(getChatUser(auth.user, chat.users));
   }, [chat]);
-  useEffect(() => {
-    // getUserOnlineStatus((uid) => {
-    //   setChats((chats) =>
-    //     chats
-    //       .map((chat) => {
-    //         const newUsers = chat.users.filter(
-    //           (user) => user._id !== auth.user._id
-    //         );
-    //         return { ...chat, users: newUsers };
-    //       })
-    //       .map((chat) => {
-    //         // console.log({
-    //         //   ...chat,
-    //         //   isOnline: chat.users.some((user) => user._id === uid),
-    //         // });
-    //         return {
-    //           ...chat,
-    //           isOnline: chat.users.some((user) => user._id === uid),
-    //         };
-    //       })
-    //   );
-    // });
-  }, []);
 
   const handleClick = async (e) => {
     try {
@@ -64,48 +45,44 @@ const ContactItem = ({ chat }) => {
   return (
     <div
       onClick={handleClick}
-      className={`flex gap-3 justify-between cursor-pointer relative hover:bg-gray-100 p-3 mb-2 last-of-type:mb-0 rounded-2xl self-stretch font-poppins ${
+      className={`flex gap-3 cursor-pointer relative hover:bg-gray-100 p-3 mb-2 last-of-type:mb-0 rounded-2xl self-stretch font-poppins w-full ${
         isDark && 'hover:bg-dark-80'
       }`}
     >
       <div className="relative w-min self-start ">
-        {/* <div className="w-12 h-12 rounded-full overflow-hidden ">
-          <img
-            className="object-cover w-12 h-12 object-center"
-            src={chatUser ? chatUser.picture : chat.groupPic}
-            alt=""
-          />
-        </div>
-        {chat.isOnline && (
-          <div className="absolute w-[13px] h-[13px] border-2 border-white bg-green-light right-0 bottom-0 rounded-full"></div>
-        )} */}
         <UserPicContainer
           pic={chatUser ? chatUser.picture : chat.groupPic}
           isOnline={chat.isOnline}
         />
       </div>
-      <div className={` flex flex-col flex-1  gap-1 whitespace-nowrap`}>
+      <div className={` flex flex-col flex-[4]  gap-1 overflow-hidden `}>
         <div
           className={` ${
             isDark ? 'text-white' : 'text-gray-dark'
-          } text-md font-normal`}
+          } text-md font-normal whitespace-nowrap overflow-hidden text-ellipsis`}
         >
           {chatUser ? getFullName(chatUser) : chat.chatName}
         </div>
 
         <p
-          className={`text-[13px]  ${
+          className={`text-[13px] whitespace-nowrap overflow-hidden text-ellipsis  ${
             isDark ? 'text-dark-70' : 'text-gray-400'
           }`}
         >
-          {latestMessage && latestMessage.sender === auth.user._id
-            ? 'You: '
-            : ''}
-          {truncateStr(latestMessage?.content, 18) || 'No messages yet.'}
+          {latestMessage && latestMessage.images.length > 0
+            ? latestMessage.sender === auth.user._id
+              ? 'You sent a photo'
+              : getFullName(chatUser || '').split(' ')[0] + ' sent a photo'
+            : latestMessage && latestMessage.sender === auth.user._id
+            ? 'You: ' + latestMessage.content
+            : latestMessage.content}
+          {!latestMessage.content &&
+            !latestMessage.images &&
+            'No messages yet.'}
         </p>
       </div>
       <div
-        className={`font-medium text-sm ${
+        className={`font-medium text-sm flex-1  ${
           isDark ? 'text-dark-70' : 'text-gray-dark'
         } `}
       >

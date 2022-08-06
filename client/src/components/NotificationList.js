@@ -14,7 +14,7 @@ const NotificationList = ({ listRef }) => {
   return (
     <div
       ref={listRef}
-      className={`dropdown lg:min-w-[250px]  min-h-[60px] max-h-[calc(100vh-80px)] overflow-y-auto scrollbar z-10 ${
+      className={`dropdown lg:w-[300px]  min-h-[60px] max-h-[calc(100vh-95px)] overflow-x-hidden overflow-y-auto scrollbar z-10 ${
         isDark && 'bg-dark-100'
       } w-[96%] top-14 left-1/2 -translate-x-[50%] lg:top-11 lg:left-auto lg:-translate-x-0 gap-2`}
     >

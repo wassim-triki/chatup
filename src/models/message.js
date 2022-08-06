@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema(
   {
     sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    content: { type: String, required: true, trim: true },
+    content: { type: String, required: false, trim: true },
+    images: [{ type: String, requried: false, trim: true }],
     chat: { type: mongoose.Schema.Types.ObjectId, ref: 'Chat' },
   },
   { timestamps: true }

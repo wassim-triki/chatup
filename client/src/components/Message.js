@@ -3,8 +3,10 @@ import useChat from '../context/ChatContext/ChatState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import useAuth from '../context/UserContext/UserState';
 import dateToTime from '../helpers/dateToTime';
+import ImageMessage from './ImageMessage';
+import TextMessage from './TextMessage';
 
-const Message = ({ _id, sender, createdAt, content, idx }) => {
+const Message = ({ _id, sender, createdAt, content, images, idx }) => {
   const { messages, openChat } = useChat();
   const { isDark } = useDarkMode();
   const { auth } = useAuth();
@@ -15,18 +17,18 @@ const Message = ({ _id, sender, createdAt, content, idx }) => {
       }`}
     >
       <div
-        className={` lg:max-w-[80%] min-h-[70px] h-full flex min-w-[70px] gap-4 ${
+        className={` lg:max-w-[80%] max-w-[90%]  h-full flex  min-w-[70px]  gap-2 ${
           sender === auth.user._id && 'flex-row-reverse'
         }`}
       >
         <div
           className={`${
-            sender === auth.user._id ? 'hidden' : 'w-10'
+            sender === auth.user._id ? 'hidden' : 'w-6 lg:w-8 '
           } h-full flex flex-col items-center gap-1 `}
         >
           {sender != auth.user._id && (
             <>
-              <div className="h-10 w-10 ">
+              <div className="w-6 h-6 lg:h-8 lg:w-8 ">
                 {!(messages[idx - 1]?.sender === sender) && (
                   <div className="h-full rounded-full overflow-hidden">
                     <img
@@ -54,16 +56,11 @@ const Message = ({ _id, sender, createdAt, content, idx }) => {
           )}
         </div>
 
-        <div
-          className={`flex text-sm flex-1 items-center justify-center max-w-full min-w-[70px]   p-4 rounded-xl bg-gray-light break-all  font-light  ${
-            sender === auth.user._id
-              ? 'rounded-tr-none bg-indigo-default text-white'
-              : isDark
-              ? 'rounded-tl-none text-white bg-dark-80'
-              : 'rounded-tl-none text-gray-dark'
-          }`}
-        >
-          {content}
+        <div className="flex w-full flex-col gap-1">
+          {content && <TextMessage sender={sender} content={content} />}
+          {images?.map((image, idx) => (
+            <ImageMessage key={idx} sender={sender} image={image} />
+          ))}
         </div>
       </div>
     </div>

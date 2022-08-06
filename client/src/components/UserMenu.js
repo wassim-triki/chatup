@@ -40,7 +40,7 @@ const UserMenu = ({ myRef }) => {
       }`}
     >
       {items.map(({ icon, label, handleClick }, idx) => (
-        <>
+        <div key={label}>
           {idx == items.length - 1 && (
             <div
               className={`h-[1px]  ${
@@ -48,13 +48,8 @@ const UserMenu = ({ myRef }) => {
               } w-full my-2`}
             ></div>
           )}
-          <UserMenuItem
-            key={label}
-            Icon={icon}
-            label={label}
-            handleClick={handleClick}
-          />
-        </>
+          <UserMenuItem Icon={icon} label={label} handleClick={handleClick} />
+        </div>
       ))}
     </div>
   );

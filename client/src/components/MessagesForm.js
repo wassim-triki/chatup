@@ -7,20 +7,32 @@ import useChat from '../context/ChatContext/ChatState';
 import useAuth from '../context/UserContext/UserState';
 import useSocket from '../context/SocketContext/SocketState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
+import uploadImage from '../helpers/uploadImage';
+import { IoIosClose } from 'react-icons/io';
 const MessagesForm = () => {
   const [msg, setMsg] = useState('');
   const { auth } = useAuth();
   const { sendMessage, receiveMessage } = useSocket();
   const { openChat, setMessages, messages } = useChat();
   const { isDark } = useDarkMode();
+  const [files, setFiles] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!msg.trim().length) return;
+      if (!msg.trim().length && !files.length) return;
+
+      let images = [];
+      if (files.length) {
+        const urls = await Promise.all(files.map((f) => uploadImage(f)));
+        console.log(urls);
+        images = urls || [];
+      }
+
       const message = {
         sender: auth.user._id,
         content: msg.trim(),
+        images,
         chat: openChat.chat._id,
       };
       const resp = await axios.post('/chat/sendMessage', message);
@@ -34,44 +46,86 @@ const MessagesForm = () => {
       });
 
       setMsg('');
+      setFiles([]);
       setMessages((messages) => [...messages, sentMsg]);
       console.log(sentMsg);
     } catch (error) {
       console.log(error);
     }
   };
+  const handleFilesChange = (e) => {
+    console.log(e.target.files);
+    setFiles([...e.target.files]);
+  };
+  const handleRemoveFile = (idx) => {
+    setFiles(files.filter((file, i) => i !== idx));
+  };
+  useEffect(() => {
+    // console.log(files);
+  }, [files]);
   return (
     <form
-      className="flex items-center gap-1 sm:gap-4 w-full h-9 lg:h-12"
+      className="flex items-center gap-1 sm:gap-4 w-full hx-9 lgx:h-12"
       onSubmit={handleSubmit}
     >
       <div
-        className={`flex-1 ${
+        className={`flex-1 py-3 ${
           isDark ? 'bg-dark-80' : 'bg-gray-light'
-        } rounded-full flex items-stretch h-full w-full`}
+        } rounded-3xl flex items-stretch h-full w-full shrink overflow-hidden flex-col gap-2`}
       >
-        <div className={`message-form-icons ${isDark && 'text-white'}`}>
-          <BsEmojiSmile />
-        </div>
-        <input
-          className="text-xs sm:text-base bg-transparent flex-1  outline-none placeholder:text-dark-70 w-full shrink"
-          placeholder="Say something"
-          type="text"
-          onChange={(e) => setMsg(e.target.value)}
-          value={msg}
-        />
+        <div className=" flex flex-1">
+          <div className={`message-form-icons ${isDark && 'text-white'}`}>
+            <BsEmojiSmile />
+          </div>
+          <input
+            className="text-xs sm:text-base bg-transparent flex-1  outline-none placeholder:text-dark-70 w-full shrink"
+            placeholder="Say something"
+            type="text"
+            onChange={(e) => setMsg(e.target.value)}
+            value={msg}
+          />
 
-        <label
-          htmlFor="file"
-          className={`message-form-icons ${isDark && 'text-white'}`}
-        >
-          <input type="file" className="hidden" id="file" />
-          <ImAttachment />
-        </label>
+          <label
+            htmlFor="file"
+            className={`message-form-icons ${isDark && 'text-white'}`}
+          >
+            <input
+              type="file"
+              className="hidden"
+              id="file"
+              accept="image/*"
+              multiple
+              onChange={handleFilesChange}
+            />
+
+            <ImAttachment />
+          </label>
+        </div>
+
+        {files.length > 0 && (
+          <div className="flex items-center gap-1  mx-2 flex-wrap">
+            {files.map((file, idx) => (
+              <div
+                key={idx}
+                className="px-2 py-1 bg-dark-70 rounded-full self-center text-xs  max-w-[100px]  min-w-[50px] relative"
+              >
+                <p className="overflow-hidden whitespace-nowrap text-ellipsis">
+                  {file.name}
+                </p>
+                <div className="absolute -top-1 -right-1 bg-dark-100 hover:bg-dark-80 cursor-pointer rounded-full">
+                  <IoIosClose
+                    className=" text-white  text-lg z-50"
+                    onClick={() => handleRemoveFile(idx)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <button
         type="submit"
-        className="bg-green-dark h-full w-9 lg:w-12 shrink-0 grow-0 flex items-center justify-center text-white rounded-full text-2xl "
+        className="bg-green-dark h-9 w-9 hover:bg-green-dark/80  lg:w-12 lg:h-12 shrink-0 grow-0 flex items-center justify-center text-white rounded-full text-2xl "
       >
         <RiSendPlaneFill className="mr-1 mt-1" />
       </button>

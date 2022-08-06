@@ -15,7 +15,8 @@ import UserPicContainer from './UserPicContainer';
 
 const Chat = () => {
   const { auth } = useAuth();
-  const { openChat, setOpenChat, messages, setMessages } = useChat();
+  const { openChat, setOpenChat, messages, setMessages, chats, setChats } =
+    useChat();
   const [chatUser, setChatUser] = useState(null);
   const { receiveMessage, socket } = useSocket();
   const { isDark } = useDarkMode();
@@ -23,9 +24,16 @@ const Chat = () => {
   useEffect(() => {
     receiveMessage((msg) => {
       console.log(msg);
+      if (chats) {
+        setChats([
+          chats.find((c) => c._id === msg.chat),
+          ...chats.filter((c) => c._id !== msg.chat),
+        ]);
+      }
+
       setMessages((messages) => [...messages, msg]);
     });
-  }, [socket]);
+  }, [socket, chats]);
   const messagesEndRef = useRef(null);
   useEffect(() => {
     // console.log('OPEN CHAT:', openChat);
@@ -52,6 +60,7 @@ const Chat = () => {
   }, [openChat]);
   useEffect(() => {
     scrollToBottom();
+    console.log(messages);
   }, [messages]);
   return (
     <div
@@ -62,11 +71,11 @@ const Chat = () => {
       {openChat ? (
         <>
           <div
-            className={`p-2 border-b-[1px] ${
+            className={`p-2 flex border-b-[1px] ${
               isDark ? 'border-b-dark-80' : 'border-b-gray-200'
             } `}
           >
-            <div className="flex items-center h-full gap-0">
+            <div className="flex items-center h-full gap-0 overflow-hidden flex-[3]">
               <button
                 onClick={() => setOpenChat(null)}
                 className=" h-full w-12 flex justify-center items-center"
@@ -79,8 +88,8 @@ const Chat = () => {
                 className="h-10 w-10"
                 isOnline={openChat.isOnline}
               />
-              <div className="text-sm ml-2">
-                <p>
+              <div className="text-sm ml-2 overflow-hidden">
+                <p className="overflow-hidden whitespace-nowrap text-ellipsis">
                   {openChat.isGroupChat
                     ? openChat.chatName
                     : `${chatUser?.firstName} ${chatUser?.lastName}`}
@@ -89,13 +98,13 @@ const Chat = () => {
                   {openChat.isOnline ? 'Online' : 'Offline'}
                 </p>
               </div>
-              {/* <BiArrowBack className="mx-5 ml-auto  text-xl text-gray-dark" /> */}
             </div>
+            <div className="flex-1 h-full w-full"></div>
           </div>
           <div className="h-full p-2 no-scrollbar  lg:p-4 flex  overflow-y-scroll overflow-x-hidden lg:scrollbar relative">
             {messages.length ? (
               <div className="flex w-full flex-col ">
-                <div className="flex flex-col gap-2 w-full h-full ">
+                <div className="flex flex-col gap-1 w-full h-full ">
                   {messages.map((message, idx) => {
                     return (
                       <div key={message._id}>
