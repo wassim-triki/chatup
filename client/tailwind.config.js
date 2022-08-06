@@ -40,5 +40,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-hyphens')],
+  plugins: [],
 };
