@@ -6,7 +6,7 @@ const DEV = 'http://localhost:8080';
 export const SocketProvider = ({ children }) => {
   const { auth } = useAuth();
   const [socket, setSocket] = useState(
-    io(process.env.REACT_APP_API_URL || DEV, {
+    io(process.env.REACT_APP_API_BASE_URL || DEV, {
       withCredentials: true,
     })
   );
