@@ -74,10 +74,10 @@ const ContactItem = ({ chat }) => {
               ? 'You sent a photo'
               : getFullName(chatUser || '').split(' ')[0] + ' sent a photo'
             : latestMessage && latestMessage.sender === auth.user._id
-            ? 'You: ' + latestMessage.content
-            : latestMessage.content}
-          {!latestMessage.content &&
-            !latestMessage.images &&
+            ? 'You: ' + latestMessage?.content
+            : latestMessage?.content}
+          {!latestMessage?.content &&
+            !latestMessage?.images &&
             'No messages yet.'}
         </p>
       </div>
