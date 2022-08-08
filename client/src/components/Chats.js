@@ -22,7 +22,7 @@ const Contacts = () => {
   }, [data]);
 
   useEffect(() => {
-    receiveAcceptedChat((chat) => chats((c) => [chat, ...c]));
+    receiveAcceptedChat((chat) => setChats((c) => [chat, ...c]));
   }, [socket]);
 
   return (

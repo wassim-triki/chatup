@@ -124,13 +124,14 @@ io.on('connection', (socket) => {
   socket.on('accept_request', async ({ senderId, chat }) => {
     const sender = getUserById(senderId);
     const senderSocket = sender?.socketId || null;
+    console.log(chat);
     socket.to(senderSocket).emit('accepted_request', chat);
   });
   socket.on('send_message', ({ receiver, message }) => {
     const user = getUserById(receiver) || null;
     if (!user) return;
     const { socketId } = user;
-    console.log(socketId);
+    console.log(message);
     socket.to(socketId).emit('receive_message', message);
   });
   socket.on('disconnect', () => {

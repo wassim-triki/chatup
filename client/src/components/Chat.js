@@ -31,8 +31,10 @@ const Chat = () => {
         ]);
       }
 
-      setMessages((messages) => [...messages, msg]);
+      setMessages((messages) => [...new Set([...messages, msg])]);
     });
+
+    // receiveMessage(console.log);
   }, [socket, chats]);
   const messagesEndRef = useRef(null);
   useEffect(() => {

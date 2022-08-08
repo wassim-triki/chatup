@@ -23,7 +23,6 @@ export const initialState = {
 
 export const UserProvider = ({ children }) => {
   const [auth, dispatch] = useReducer(userReducer, initialState);
-  // const { connectUser, disconnectUser, receiveNotification } = useSocket();
   const { data, error, loading } = useFetch('/auth/me');
   const navigate = useNavigate();
 
@@ -43,14 +42,11 @@ export const UserProvider = ({ children }) => {
     // disconnectUser();
     dispatch({ type: LOGOUT_USER });
   };
-  // const sendRequest = (receiverId) => {
-  //   sendNotification(auth.user._id, receiverId);
-  //   dispatch({ type: SEND_REQUEST, payload: receiverId });
-  // };
-  const receiveRequest = () => {
-    // receiveNotification((sender) => {
-    //   dispatch({ type: RECEIVE_REQUEST, payload: sender });
-    // });
+  const sendRequest = (receiverId) => {
+    dispatch({ type: SEND_REQUEST, payload: receiverId });
+  };
+  const receiveRequest = (sender) => {
+    dispatch({ type: RECEIVE_REQUEST, payload: sender });
   };
   const acceptRequest = (senderId) => {
     dispatch({ type: ACCEPT_REQUEST, payload: senderId });
@@ -67,7 +63,7 @@ export const UserProvider = ({ children }) => {
         acceptRequest,
         receiveRequest,
         requests: getRequests(),
-        // sendRequest,
+        sendRequest,
       }}
     >
       {children}

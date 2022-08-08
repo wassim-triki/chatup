@@ -9,13 +9,13 @@ import NotificationList from './NotificationList';
 import useSocket from '../context/SocketContext/SocketState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 const NotificationsContainer = () => {
-  const { socket } = useSocket();
+  const { socket, receiveNotification } = useSocket();
   const { auth, receiveRequest } = useAuth();
   const [notif, setNotif] = useState(null);
   const { isDark } = useDarkMode();
   const [show, setShow] = useState(false);
   useEffect(() => {
-    receiveRequest();
+    receiveNotification(receiveRequest);
   }, [socket]);
 
   const ref = useRef(null);
