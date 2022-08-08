@@ -38,8 +38,8 @@ const Chat = () => {
   }, [socket, chats]);
   const messagesEndRef = useRef(null);
   useEffect(() => {
-    // console.log('OPEN CHAT:', openChat);
-  }, [openChat]);
+    console.log('MESSAGES:', messages);
+  }, [messages]);
   useEffect(() => {
     !openChat?.chat.isGroupChat &&
       setChatUser(getChatUser(auth.user, openChat?.chat.users));
