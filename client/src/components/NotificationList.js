@@ -14,9 +14,11 @@ const NotificationList = ({ listRef }) => {
   return (
     <div
       ref={listRef}
-      className={`dropdown lg:w-[300px]  min-h-[60px] max-h-[calc(100vh-95px)] overflow-x-hidden overflow-y-auto scrollbar z-10 ${
-        isDark && 'bg-dark-100'
-      } w-[96%] top-14 left-1/2 -translate-x-[50%] lg:top-11 lg:left-auto lg:-translate-x-0 gap-2`}
+      className={`dropdown md:w-[300px]  min-h-[60px] max-h-[calc(100vh-95px)] overflow-x-hidden overflow-y-auto scrollbar z-10 ${
+        isDark && notificationIds.length && 'bg-dark-100'
+      } ${
+        isDark && !notificationIds.length && 'bg-dark-90'
+      } w-[96%] top-14 left-1/2 -translate-x-[50%] md:top-11 md:left-auto md:-translate-x-0 gap-2`}
     >
       {data?.length ? (
         data?.reverse().map((u) => <NotificationItem key={u._id} {...u} />)
