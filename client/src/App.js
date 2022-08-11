@@ -33,7 +33,11 @@ function App() {
       backgroundColor: `${isDark ? '#141414' : '#fff'}`,
       color: `${isDark ? '#fff' : '#141414'}`,
       border: 'none',
-      boxShadow: '0px 0px 20px 0px #050505ab',
+      boxShadow: `${
+        isDark
+          ? '0px 0px 20px 0px #050505ab'
+          : 'rgb(122 122 122 / 67%) 0px 0px 20px 0px'
+      }`,
       borderRadius: '15px',
     },
   };
