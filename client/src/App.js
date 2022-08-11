@@ -10,11 +10,33 @@ import NotFound from './pages/NotFound';
 import { SocketProvider } from './context/SocketContext/SocketState';
 import { ToastContainer } from 'react-toastify';
 import useDarkMode from './context/DarkModeContext/DarkModeState';
+import ReactModal from 'react-modal';
+import { AiFillDelete, AiOutlineDelete } from 'react-icons/ai';
+import useModal from './context/ModalContext/ModalState';
+import DeleteChatModalContent from './components/DeleteChatModalContent';
 
 function App() {
   const { loading } = useAuth();
   const { isDark } = useDarkMode();
-
+  const { modalContent, modalIsOpen } = useModal();
+  const customStyles = {
+    overlay: {
+      backgroundColor: '#0000005c',
+    },
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: `${isDark ? '#141414' : '#fff'}`,
+      color: `${isDark ? '#fff' : '#141414'}`,
+      border: 'none',
+      boxShadow: '0px 0px 20px 0px #050505ab',
+      borderRadius: '15px',
+    },
+  };
   return (
     <div className="App">
       {loading ? (
@@ -55,6 +77,13 @@ function App() {
           color: `${isDark ? '#fff' : ''}`,
         }}
       />
+      <ReactModal isOpen={modalIsOpen} style={customStyles}>
+        {modalContent?.id == 'delete-chat' ? (
+          <DeleteChatModalContent {...modalContent.props} />
+        ) : (
+          ''
+        )}
+      </ReactModal>
     </div>
   );
 }

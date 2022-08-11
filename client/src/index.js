@@ -7,14 +7,18 @@ import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from './context/UserContext/UserState';
 import { ChatProvider } from './context/ChatContext/ChatState';
 import { DarkModeProvider } from './context/DarkModeContext/DarkModeState';
-
+import ReactModal from 'react-modal';
+import { ModalProvider } from './context/ModalContext/ModalState';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+ReactModal.setAppElement('#root');
 root.render(
   <BrowserRouter>
     <UserProvider>
       <ChatProvider>
         <DarkModeProvider>
-          <App />
+          <ModalProvider>
+            <App />
+          </ModalProvider>
         </DarkModeProvider>
       </ChatProvider>
     </UserProvider>

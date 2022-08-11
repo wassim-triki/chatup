@@ -12,6 +12,10 @@ import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import { BiArrowBack } from 'react-icons/bi';
 import { TbMessages } from 'react-icons/tb';
 import UserPicContainer from './UserPicContainer';
+import { MdOutlineDeleteSweep } from 'react-icons/md';
+import { toast } from 'react-toastify';
+import useModal from '../context/ModalContext/ModalState';
+import DeleteChatModalContent from './DeleteChatModalContent';
 
 const Chat = () => {
   const { auth } = useAuth();
@@ -20,6 +24,7 @@ const Chat = () => {
   const [chatUser, setChatUser] = useState(null);
   const { receiveMessage, socket } = useSocket();
   const { isDark } = useDarkMode();
+  const { openModal, closeModal, setModalContent } = useModal();
 
   useEffect(() => {
     receiveMessage((msg) => {
@@ -64,6 +69,7 @@ const Chat = () => {
     scrollToBottom();
     console.log(messages);
   }, [messages]);
+
   return (
     <div
       className={`box ${
@@ -90,7 +96,7 @@ const Chat = () => {
                 className="h-10 w-10"
                 isOnline={openChat.isOnline}
               />
-              <div className="text-sm ml-2 overflow-hidden">
+              <div className="text-sm ml-2 overflow-hidden flex-1">
                 <p className="overflow-hidden whitespace-nowrap text-ellipsis">
                   {openChat.isGroupChat
                     ? openChat.chatName
@@ -100,8 +106,29 @@ const Chat = () => {
                   {openChat.isOnline ? 'Online' : 'Offline'}
                 </p>
               </div>
+              <div className=" h-full flex items-center">
+                <div
+                  onClick={(e) => {
+                    setModalContent({
+                      id: 'delete-chat',
+                      props: {
+                        pic: chatUser?.picture,
+                        firstName: chatUser?.firstName,
+                        lastName: chatUser?.lastName,
+                      },
+                    });
+                    openModal();
+                  }}
+                  className={`shrink-0 ${
+                    isDark
+                      ? 'text-white hover:bg-dark-80'
+                      : 'text-dark-100 hover:bg-gray-light'
+                  } text-2xl h-full w-10 flex justify-center items-center rounded-full cursor-pointer`}
+                >
+                  <MdOutlineDeleteSweep />
+                </div>
+              </div>
             </div>
-            <div className="flex-1 h-full w-full"></div>
           </div>
           <div className="h-full p-2 no-scrollbar  lg:p-4 flex  overflow-y-scroll overflow-x-hidden lg:scrollbar relative">
             {messages.length ? (

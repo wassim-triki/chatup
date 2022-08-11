@@ -9,6 +9,7 @@ import truncateStr from '../helpers/truncateStr';
 import useSocket from '../context/SocketContext/SocketState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import UserPicContainer from './UserPicContainer';
+import { toast } from 'react-toastify';
 
 const ContactItem = ({ chat }) => {
   const { setOpenChat, openChat, messages, setChats, chats } = useChat();
@@ -39,14 +40,14 @@ const ContactItem = ({ chat }) => {
         setOpenChat({ chat: resp.data, chatMessages: [] });
       }
     } catch (error) {
-      console.log(error.message);
+      toast(error.response.data.message, { type: 'error' });
     }
   };
   return (
     <div
       onClick={handleClick}
-      className={`flex gap-3 cursor-pointer relative hover:bg-gray-100 p-3 mb-2 last-of-type:mb-0 rounded-2xl self-stretch font-poppins w-full ${
-        isDark && 'hover:bg-dark-80'
+      className={`flex gap-3 cursor-pointer relative  p-3 mb-2 last-of-type:mb-0 rounded-2xl self-stretch font-poppins w-full ${
+        isDark ? 'hover:bg-dark-80' : 'hover:bg-gray-100'
       }`}
     >
       <div className="relative w-min self-start ">
@@ -82,7 +83,7 @@ const ContactItem = ({ chat }) => {
         </p>
       </div>
       <div
-        className={`font-medium text-sm flex-1  ${
+        className={`font-medium text-right text-sm flex-1  ${
           isDark ? 'text-dark-70' : 'text-gray-dark'
         } `}
       >

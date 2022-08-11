@@ -29,7 +29,7 @@ const NotificationsContainer = () => {
   return (
     <div
       onClick={handleClick}
-      className={`hover:bg-gray-200 ${isDark && 'hover:bg-dark-90 '} ${
+      className={` ${isDark ? 'hover:bg-dark-90 ' : 'hover:bg-gray-200'} ${
         !isDark && 'active:bg-gray-300'
       } cursor-pointer rounded-full w-9 h-9 flex justify-center items-center md:relative `}
     >

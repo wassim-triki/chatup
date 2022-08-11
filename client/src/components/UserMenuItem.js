@@ -6,8 +6,8 @@ const UserMenuItem = ({ Icon, label, handleClick }) => {
   return (
     <div
       onClick={handleClick}
-      className={`hover:bg-gray-100 rounded-lg p-2 flex items-center gap-1 ${
-        isDark && 'hover:bg-dark-80'
+      className={` rounded-lg p-2 flex items-center gap-1 ${
+        isDark ? 'hover:bg-dark-80' : 'hover:bg-gray-100'
       }`}
     >
       {Icon && <Icon className="text-lg" />}

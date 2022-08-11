@@ -40,7 +40,7 @@ const SearchResultItem = ({ _id, picture, firstName, lastName, email }) => {
       </div>
       <div
         onClick={handleClick}
-        className={` rounded-full shrink-0 w-14 h-14 flex items-center justify-center overflow-hidden text-xl ${
+        className={` rounded-full shrink-0 w-14 h-14 flex items-center justify-center overflow-hidden text-xl cursor-pointer ${
           isDark
             ? 'text-dark-70 hover:bg-dark-80'
             : 'text-dark-100 hover:bg-gray-light'

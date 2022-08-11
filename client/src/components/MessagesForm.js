@@ -9,6 +9,7 @@ import useSocket from '../context/SocketContext/SocketState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import uploadImage from '../helpers/uploadImage';
 import { IoIosClose } from 'react-icons/io';
+import { toast } from 'react-toastify';
 const MessagesForm = () => {
   const [msg, setMsg] = useState('');
   const { auth } = useAuth();
@@ -50,7 +51,7 @@ const MessagesForm = () => {
       setMessages((messages) => [...messages, sentMsg]);
       console.log(sentMsg);
     } catch (error) {
-      console.log(error);
+      toast(error.response.data.message, { type: 'error' });
     }
   };
   const handleFilesChange = (e) => {

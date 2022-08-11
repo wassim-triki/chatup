@@ -73,7 +73,6 @@ module.exports.acceptRequest = async (req, res) => {
 };
 module.exports.declineRequest = async (req, res) => {
   try {
-    console.log('dqss');
     const senderId = req.body.id;
     const receiverId = req.userId;
     const sender = await User.findOne({ _id: senderId });
@@ -117,12 +116,22 @@ module.exports.myChats = async (req, res) => {
   }
 };
 
+module.exports.deleteChat = async (req, res) => {
+  try {
+    const { chatId } = req.body;
+    await Chat.deleteOne({ _id: chatId });
+    res.status(200).json({ message: 'Chat Deleted.' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports.openChat = async (req, res) => {
   try {
     const { chatId } = req.params;
     const chat = await Chat.findOne({ _id: chatId })
       .populate('users', '-password')
       .populate('latestMessage');
+    if (!chat) throw new Error('Chat Deleted By Other User.');
     res.status(200).json(chat);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -150,7 +159,7 @@ module.exports.sendMessage = async (req, res) => {
     await chat.save();
     res.status(200).json(message);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(401).json({ message: error.message });
   } finally {
     res.end();
   }

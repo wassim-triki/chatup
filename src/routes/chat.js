@@ -9,6 +9,7 @@ const {
   chatMessages,
   sendMessage,
   deleteMessages,
+  deleteChat,
 } = require('../controllers/chat');
 const authentication = require('../middlewares/authentication');
 const { Chat } = require('../models/chat');
@@ -21,6 +22,7 @@ router.post('/declineRequest', authentication, declineRequest);
 
 router.post('/sendMessage', authentication, sendMessage);
 router.get('/:chatId', authentication, openChat);
+router.post('/deleteChat', authentication, deleteChat);
 router.get('/:chatId/messages', authentication, chatMessages);
 router.delete('/delete', deleteChats);
 router.delete('/deleteMessages', deleteMessages);
