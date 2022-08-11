@@ -20,7 +20,7 @@ const UserMenu = ({ myRef }) => {
     logoutUser();
   };
   const items = [
-    { label: 'Profile', icon: BiUserCircle },
+    // { label: 'Profile', icon: BiUserCircle },
     {
       label: 'Dark Mode',
       icon: CgDarkMode,

@@ -8,9 +8,12 @@ import useAuth from './context/UserContext/UserState';
 import Spinner from './components/Spinner';
 import NotFound from './pages/NotFound';
 import { SocketProvider } from './context/SocketContext/SocketState';
+import { ToastContainer } from 'react-toastify';
+import useDarkMode from './context/DarkModeContext/DarkModeState';
 
 function App() {
   const { loading } = useAuth();
+  const { isDark } = useDarkMode();
 
   return (
     <div className="App">
@@ -43,6 +46,15 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       )}
+      <ToastContainer
+        autoClose={2500}
+        pauseOnFocusLoss={false}
+        position={'bottom-center'}
+        toastStyle={{
+          backgroundColor: `${isDark ? '#141414' : ''}`,
+          color: `${isDark ? '#fff' : ''}`,
+        }}
+      />
     </div>
   );
 }

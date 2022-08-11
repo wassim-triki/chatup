@@ -6,6 +6,7 @@ import axios from '../api/axiosConfig';
 import { toast } from 'react-toastify';
 import useSocket from '../context/SocketContext/SocketState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
+import { IoPersonAddOutline } from 'react-icons/io5';
 const SearchResultItem = ({ _id, picture, firstName, lastName, email }) => {
   const { socket, sendNotification } = useSocket();
   const { auth, sendRequest } = useAuth();
@@ -21,12 +22,7 @@ const SearchResultItem = ({ _id, picture, firstName, lastName, email }) => {
     }
   };
   return (
-    <div
-      onClick={handleClick}
-      className={`flex p-2  ${
-        isDark ? 'hover:bg-dark-80' : 'hover:bg-gray-100'
-      } cursor-pointer gap-4 rounded-2xl items-center `}
-    >
+    <div className={`flex p-2 cursor-pointer gap-4 rounded-2xl items-center `}>
       <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
         <img className="object-cover w-12 h-12 object-center" src={picture} />
       </div>
@@ -41,6 +37,16 @@ const SearchResultItem = ({ _id, picture, firstName, lastName, email }) => {
         <p className="whitespace-nowrap overflow-hidden text-ellipsis text-gray-default">
           {email}
         </p>
+      </div>
+      <div
+        onClick={handleClick}
+        className={` rounded-full shrink-0 w-14 h-14 flex items-center justify-center overflow-hidden text-xl ${
+          isDark
+            ? 'text-dark-70 hover:bg-dark-80'
+            : 'text-dark-100 hover:bg-gray-light'
+        }`}
+      >
+        <IoPersonAddOutline />
       </div>
     </div>
   );

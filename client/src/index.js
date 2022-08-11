@@ -4,7 +4,6 @@ import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import { UserProvider } from './context/UserContext/UserState';
 import { ChatProvider } from './context/ChatContext/ChatState';
 import { DarkModeProvider } from './context/DarkModeContext/DarkModeState';
@@ -16,11 +15,6 @@ root.render(
       <ChatProvider>
         <DarkModeProvider>
           <App />
-          <ToastContainer
-            autoClose={2500}
-            pauseOnFocusLoss={false}
-            position={'top-center'}
-          />
         </DarkModeProvider>
       </ChatProvider>
     </UserProvider>
