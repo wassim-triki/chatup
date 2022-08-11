@@ -4,6 +4,7 @@ const {
   deleteChats,
   sendRequest,
   acceptRequest,
+  declineRequest,
   openChat,
   chatMessages,
   sendMessage,
@@ -16,6 +17,8 @@ const router = express.Router();
 router.get('/myChats', authentication, myChats);
 router.post('/sendRequest', authentication, sendRequest);
 router.post('/acceptRequest', authentication, acceptRequest);
+router.post('/declineRequest', authentication, declineRequest);
+
 router.post('/sendMessage', authentication, sendMessage);
 router.get('/:chatId', authentication, openChat);
 router.get('/:chatId/messages', authentication, chatMessages);

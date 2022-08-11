@@ -35,67 +35,6 @@ module.exports.searchUsers = async (req, res) => {
   }
 };
 
-module.exports.acceptRequest = async (req, res) => {
-  try {
-    const senderId = req.body.id;
-    const receiver = await User.findOne({ _id: req.userId });
-
-    const sender = await User.findOne({ _id: senderId });
-    if (!sender) throw new Error('Sender Does Not Exist');
-
-    const updatedReceivedRequests = receiver.receivedRequests.filter(
-      (id) => id.toString() !== sender._id.toString()
-    );
-    const updatedSentRequests = sender.sentRequests.filter((id) => {
-      return id.toString() !== receiver._id.toString();
-    });
-    sender.sentRequests = updatedSentRequests;
-    receiver.receivedRequests = updatedReceivedRequests;
-    receiver.markModified('object');
-    sender.markModified('object');
-    await receiver.save();
-    await sender.save();
-    const resp = await Chat.create({ users: [sender, receiver] });
-    res.status(201).json({ message: `${sender.firstName} Added To Contacts.` });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  } finally {
-    res.end();
-  }
-};
-module.exports.sendRequest = async (req, res) => {
-  try {
-    const receiverId = req.body.id;
-    const receiver = await User.findOne({ _id: receiverId });
-    if (!receiver)
-      throw new Error(`User With email ${receiver.email} Does Not Exist.`);
-    const sender = await User.findOne({ _id: req.userId });
-    const chat = await Chat.find({ users: { $all: [receiverId, req.userId] } });
-    if (chat.length)
-      throw new Error(`${receiver.firstName} Is Already In Your Contacts.`);
-    if (
-      !receiver.sentRequests.includes(sender._id) &&
-      !receiver.receivedRequests.includes(sender._id)
-    ) {
-      receiver.receivedRequests.unshift(sender);
-      sender.sentRequests.unshift(receiver);
-      receiver.markModified('object');
-      sender.markModified('object');
-      await receiver.save();
-      await sender.save();
-      res.status(201).json({
-        message: `Request Sent To ${receiver.firstName}`,
-      });
-    } else {
-      throw new Error(`Request Already Sent.`);
-    }
-  } catch (error) {
-    res.status(300).json({ message: error.message });
-  } finally {
-    res.end();
-  }
-};
-
 module.exports.deleteAllRequests = async (req, res) => {
   try {
     await User.updateMany(

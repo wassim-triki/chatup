@@ -8,6 +8,7 @@ import {
   LOGOUT_USER,
   RECEIVE_REQUEST,
   SEND_REQUEST,
+  DECLINE_REQUEST,
   ACCEPTED_REQUEST,
 } from './UserActions';
 import UserContext from './UserContext';
@@ -32,7 +33,9 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     // console.log(error);
   }, [error]);
-  useEffect(() => {}, [auth]);
+  useEffect(() => {
+    console.log(auth);
+  }, [auth]);
   const loginUser = (user) => {
     // user?._id && connectUser(user._id);
     const payload = { user, isAuth: user != null };
@@ -51,8 +54,10 @@ export const UserProvider = ({ children }) => {
   const acceptRequest = (senderId) => {
     dispatch({ type: ACCEPT_REQUEST, payload: senderId });
   };
+  const declineRequest = (senderId) => {
+    dispatch({ type: DECLINE_REQUEST, payload: senderId });
+  };
 
-  const getRequests = () => auth.user?.receivedRequests;
   return (
     <UserContext.Provider
       value={{
@@ -62,7 +67,7 @@ export const UserProvider = ({ children }) => {
         loading,
         acceptRequest,
         receiveRequest,
-        requests: getRequests(),
+        declineRequest,
         sendRequest,
       }}
     >

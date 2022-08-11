@@ -6,7 +6,7 @@ import useChat from '../context/ChatContext/ChatState';
 import useSocket from '../context/SocketContext/SocketState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 const NotificationItem = ({ _id, picture, firstName, lastName }) => {
-  const { auth, acceptRequest } = useAuth();
+  const { auth, acceptRequest, declineRequest } = useAuth();
   const { setChats } = useChat();
   const { socket } = useSocket();
   const { isDark } = useDarkMode();
@@ -18,6 +18,14 @@ const NotificationItem = ({ _id, picture, firstName, lastName }) => {
       setChats((c) => [chat, ...c]);
       acceptRequest(_id);
       socket.emit('accept_request', { senderId: _id, chat });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDecline = async (e) => {
+    try {
+      const resp = await axios.post('/chat/declineRequest', { id: _id });
+      declineRequest(_id);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +60,9 @@ const NotificationItem = ({ _id, picture, firstName, lastName }) => {
         <button className="btn-notif bg-green-dark" onClick={handleAccept}>
           Accept
         </button>
-        <button className="btn-notif bg-gray-400">Decline</button>
+        <button onClick={handleDecline} className="btn-notif bg-gray-400">
+          Decline
+        </button>
       </div>
     </div>
   );

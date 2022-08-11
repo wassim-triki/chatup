@@ -5,6 +5,7 @@ import {
   RECEIVE_REQUEST,
   SEND_REQUEST,
   ACCEPTED_REQUEST,
+  DECLINE_REQUEST,
 } from './UserActions';
 import { initialState } from './UserState';
 const userReducer = (state, action) => {
@@ -18,6 +19,16 @@ const userReducer = (state, action) => {
         ...initialState,
       };
     case ACCEPT_REQUEST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          receivedRequests: state.user.receivedRequests.filter(
+            ({ _id }) => _id !== action.payload
+          ),
+        },
+      };
+    case DECLINE_REQUEST:
       return {
         ...state,
         user: {

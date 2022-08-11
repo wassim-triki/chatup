@@ -71,6 +71,28 @@ module.exports.acceptRequest = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+module.exports.declineRequest = async (req, res) => {
+  try {
+    console.log('dqss');
+    const senderId = req.body.id;
+    const receiverId = req.userId;
+    const sender = await User.findOne({ _id: senderId });
+    if (!sender) throw new Error(`User Does Not Exist.`);
+    const receiver = await User.findOne({ _id: receiverId });
+    await User.updateOne(
+      { _id: senderId },
+      { $pull: { sentRequests: receiverId } }
+    );
+    await User.updateOne(
+      { _id: receiverId },
+      { $pull: { receivedRequests: senderId } }
+    );
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  } finally {
+    res.end();
+  }
+};
 
 module.exports.myChats = async (req, res) => {
   try {
