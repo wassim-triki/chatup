@@ -8,7 +8,7 @@ import useSocket from '../context/SocketContext/SocketState';
 import useChat from '../context/ChatContext/ChatState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import { IoPeopleOutline } from 'react-icons/io5';
-
+import { ThreeDots } from 'react-loader-spinner';
 const Contacts = () => {
   const { auth, acceptedRequest } = useAuth();
   const { isDark } = useDarkMode();
@@ -29,9 +29,13 @@ const Contacts = () => {
     <div
       className={`box ${
         isDark && 'bg-dark-90 '
-      }  font-fira overflow-y-auto scrollbar overflow-x-hidden`}
+      }  font-fira overflow-y-auto scrollbar overflow-x-hidden flex ${
+        loading && 'justify-center items-center'
+      } `}
     >
-      {chats?.length ? (
+      {loading ? (
+        <ThreeDots color="#3cc6b7" height={50} width={50} />
+      ) : chats?.length ? (
         chats.map((chat) => <ChatItem key={chat._id} chat={chat} />)
       ) : (
         <div className="flex flex-col items-center justify-center h-full">

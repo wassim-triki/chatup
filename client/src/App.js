@@ -15,10 +15,12 @@ import { AiFillDelete, AiOutlineDelete } from 'react-icons/ai';
 import useModal from './context/ModalContext/ModalState';
 import DeleteChatModalContent from './components/DeleteChatModalContent';
 import { ThreeDots } from 'react-loader-spinner';
+import { IoIosClose } from 'react-icons/io';
+import ImageModalContent from './components/ImageModalContent';
 function App() {
   const { loading } = useAuth();
   const { isDark } = useDarkMode();
-  const { modalContent, modalIsOpen } = useModal();
+  const { modalContent, modalIsOpen, closeModal } = useModal();
   const customStyles = {
     overlay: {
       backgroundColor: '#0000005c',
@@ -81,9 +83,12 @@ function App() {
           color: `${isDark ? '#fff' : ''}`,
         }}
       />
+      {/* modalIsOpen */}
       <ReactModal isOpen={modalIsOpen} style={customStyles}>
         {modalContent?.id == 'delete-chat' ? (
           <DeleteChatModalContent {...modalContent.props} />
+        ) : modalContent?.id == 'image' ? (
+          <ImageModalContent {...modalContent.props} />
         ) : (
           ''
         )}
