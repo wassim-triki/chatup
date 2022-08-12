@@ -1,16 +1,18 @@
 import axios from '../api/axiosConfig';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BsEmojiSmile } from 'react-icons/bs';
 import { ImAttachment } from 'react-icons/im';
 import { RiSendPlaneFill } from 'react-icons/ri';
 import useChat from '../context/ChatContext/ChatState';
 import useAuth from '../context/UserContext/UserState';
 import useSocket from '../context/SocketContext/SocketState';
+import { useClickAway } from 'react-use';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import uploadImage from '../helpers/uploadImage';
 import { ThreeDots } from 'react-loader-spinner';
 import { IoIosClose } from 'react-icons/io';
 import { toast } from 'react-toastify';
+import Picker from 'emoji-picker-react';
 const MessagesForm = () => {
   const [msg, setMsg] = useState('');
   const { auth } = useAuth();
@@ -19,6 +21,18 @@ const MessagesForm = () => {
   const [loading, setLoading] = useState(false);
   const { isDark } = useDarkMode();
   const [files, setFiles] = useState([]);
+
+  const [showEmojis, setShowEmojis] = useState(false);
+  const [chosenEmoji, setChosenEmoji] = useState(null);
+
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject);
+    setMsg(msg + emojiObject.emoji);
+  };
+  const ref = useRef(null);
+  useClickAway(ref, () => {
+    setShowEmojis(false);
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,18 +85,35 @@ const MessagesForm = () => {
   }, [files]);
   return (
     <form
-      className="flex items-center gap-1 sm:gap-4 w-full hx-9 lgx:h-12"
+      className="flex items-center gap-1 sm:gap-4 w-full hx-9 lgx:h-12 relative"
       onSubmit={handleSubmit}
     >
       <div
         className={`flex-1 py-3 ${files.length > 0 && 'pb-2'} ${
           isDark ? 'bg-dark-80' : 'bg-gray-light'
-        } rounded-3xl flex items-stretch h-full w-full shrink overflow-hidden flex-col gap-2`}
+        } rounded-3xl flex items-stretch h-full w-full shrink overflow-hiddsen flex-col gap-2 `}
       >
         <div className=" flex flex-1">
-          <div className={`message-form-icons ${isDark && 'text-white'}`}>
+          <div
+            onClick={() => setShowEmojis(!showEmojis)}
+            className={`message-form-icons ${isDark && 'text-white'}`}
+          >
             <BsEmojiSmile />
           </div>
+          {showEmojis && (
+            <div
+              ref={ref}
+              className="absolute bottom-[100%] left-0 z-50  w-[100%] sm:w-[300px]"
+            >
+              <Picker
+                onEmojiClick={onEmojiClick}
+                pickerStyle={{
+                  width: '100%',
+                  boxShadow: 'none',
+                }}
+              />
+            </div>
+          )}
           <input
             className="text-xs sm:text-base bg-transparent flex-1  outline-none placeholder:text-dark-70 w-full shrink"
             placeholder="Say something"

@@ -41,8 +41,8 @@ const Home = () => {
   }, [initialChats]);
   return (
     <div
-      className={`h-screen w-full bg-gray-light ${
-        isDark && 'bg-dark-100'
+      className={`h-screen w-full  ${
+        isDark ? 'bg-dark-100' : 'bg-gray-light'
       } px-2  sm:bg-gresen-500 md:bg-bslue-500  lg:bg-rsed-500 2xl:bg-yelslow-500  lg:[100px] 2xl:px-[200px] flex flex-col`}
     >
       <Header />
