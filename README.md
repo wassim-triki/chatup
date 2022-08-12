@@ -5,7 +5,9 @@
   ChatUp
   <br>
 </h1>
-<a href="https://app-chatup.herokuapp.com/">Online app</a>
+<p align="center">
+<a href="https://app-chatup.herokuapp.com/" target='_blank'>Online app</a>
+</p>
 
 <h4 align="center">A fullstack real-time chat application built with MERN and socket.io</h4>
 
