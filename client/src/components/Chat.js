@@ -16,7 +16,7 @@ import { MdOutlineDeleteSweep } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import useModal from '../context/ModalContext/ModalState';
 import DeleteChatModalContent from './DeleteChatModalContent';
-
+import { ThreeDots } from 'react-loader-spinner';
 const Chat = () => {
   const { auth } = useAuth();
   const { openChat, setOpenChat, messages, setMessages, chats, setChats } =
@@ -25,6 +25,7 @@ const Chat = () => {
   const { receiveMessage, socket } = useSocket();
   const { isDark } = useDarkMode();
   const { openModal, closeModal, setModalContent } = useModal();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     receiveMessage((msg) => {
@@ -55,12 +56,15 @@ const Chat = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
+        setLoading(true);
         if (openChat) {
           const resp = await axios.get(`/chat/${openChat.chat._id}/messages`);
           setMessages(resp.data);
         } else return;
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchMessages();
@@ -130,8 +134,14 @@ const Chat = () => {
               </div>
             </div>
           </div>
-          <div className="h-full p-2 no-scrollbar  lg:p-4 flex  overflow-y-scroll overflow-x-hidden lg:scrollbar relative">
-            {messages.length ? (
+          <div
+            className={`h-full p-2 no-scrollbar  lg:p-4 flex  overflow-y-scroll overflow-x-hidden lg:scrollbar relative  ${
+              loading && 'justify-center items-center'
+            }`}
+          >
+            {loading ? (
+              <ThreeDots color="#3cc6b7" height={50} width={50} />
+            ) : messages.length ? (
               <div className="flex w-full flex-col ">
                 <div className="flex flex-col gap-1 w-full h-full ">
                   {messages.map((message, idx) => {

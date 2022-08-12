@@ -6,6 +6,7 @@ import Spinner from './Spinner';
 import axios from '../api/axiosConfig';
 import { toast } from 'react-toastify';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
+import { ThreeDots } from 'react-loader-spinner';
 const NotificationList = ({ listRef }) => {
   const { auth } = useAuth();
   const notificationIds = auth.user.receivedRequests;
@@ -25,7 +26,7 @@ const NotificationList = ({ listRef }) => {
       ) : (
         <p className="text-center text-sm text-gray-default m-auto">
           {loading ? (
-            <Spinner size="2xl" center={true} fill="green-light" />
+            <ThreeDots color="#3cc6b7" height={28} width={28} />
           ) : (
             'Nothing here.'
           )}

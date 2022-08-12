@@ -1,5 +1,6 @@
 import React from 'react';
 import Spinner from './Spinner';
+import { ThreeDots } from 'react-loader-spinner';
 const FormButton = ({ loading, children, loadingText }) => {
   return (
     <button
@@ -9,8 +10,8 @@ const FormButton = ({ loading, children, loadingText }) => {
     >
       {loading ? (
         <>
-          <Spinner />
-          {loadingText}
+          <ThreeDots color="#fff" height={30} width={30} />
+          {/* {loadingText} */}
         </>
       ) : (
         <> {children}</>

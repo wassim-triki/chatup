@@ -87,7 +87,7 @@ const ContactItem = ({ chat }) => {
           isDark ? 'text-dark-70' : 'text-gray-dark'
         } `}
       >
-        {dateToTime(latestMessage?.createdAt) || ''}
+        {dateToTime(latestMessage?.createdAt) || dateToTime(chat.createdAt)}
       </div>
     </div>
   );

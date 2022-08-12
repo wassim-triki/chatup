@@ -8,6 +8,7 @@ import useAuth from '../context/UserContext/UserState';
 import useSocket from '../context/SocketContext/SocketState';
 import useDarkMode from '../context/DarkModeContext/DarkModeState';
 import uploadImage from '../helpers/uploadImage';
+import { ThreeDots } from 'react-loader-spinner';
 import { IoIosClose } from 'react-icons/io';
 import { toast } from 'react-toastify';
 const MessagesForm = () => {
@@ -15,6 +16,7 @@ const MessagesForm = () => {
   const { auth } = useAuth();
   const { sendMessage, receiveMessage } = useSocket();
   const { openChat, setMessages, messages } = useChat();
+  const [loading, setLoading] = useState(false);
   const { isDark } = useDarkMode();
   const [files, setFiles] = useState([]);
 
@@ -25,6 +27,7 @@ const MessagesForm = () => {
 
       let images = [];
       if (files.length) {
+        setLoading(true);
         const urls = await Promise.all(files.map((f) => uploadImage(f)));
         console.log(urls);
         images = urls || [];
@@ -52,6 +55,8 @@ const MessagesForm = () => {
       console.log(sentMsg);
     } catch (error) {
       toast(error.response.data.message, { type: 'error' });
+    } finally {
+      setLoading(false);
     }
   };
   const handleFilesChange = (e) => {
@@ -70,7 +75,7 @@ const MessagesForm = () => {
       onSubmit={handleSubmit}
     >
       <div
-        className={`flex-1 py-3 ${
+        className={`flex-1 py-3 ${files.length > 0 && 'pb-2'} ${
           isDark ? 'bg-dark-80' : 'bg-gray-light'
         } rounded-3xl flex items-stretch h-full w-full shrink overflow-hidden flex-col gap-2`}
       >
@@ -110,7 +115,9 @@ const MessagesForm = () => {
                 key={idx}
                 className="px-2 py-1 bg-dark-70 rounded-full self-center text-xs  max-w-[100px]  min-w-[50px] relative"
               >
-                <p className="overflow-hidden whitespace-nowrap text-ellipsis">
+                <p
+                  className={`text-white overflow-hidden whitespace-nowrap text-ellipsis`}
+                >
                   {file.name}
                 </p>
                 <div className="absolute -top-1 -right-1 bg-dark-100 hover:bg-dark-80 cursor-pointer rounded-full">
@@ -126,9 +133,14 @@ const MessagesForm = () => {
       </div>
       <button
         type="submit"
+        disabled={loading}
         className="bg-green-dark h-9 w-9 hover:bg-green-dark/80  lg:w-12 lg:h-12 shrink-0 grow-0 flex items-center justify-center text-white rounded-full text-2xl "
       >
-        <RiSendPlaneFill className="mr-1 mt-1" />
+        {loading ? (
+          <ThreeDots color="#fff" height={28} width={28} />
+        ) : (
+          <RiSendPlaneFill className="mr-1 mt-1" />
+        )}
       </button>
     </form>
   );

@@ -14,7 +14,7 @@ import ReactModal from 'react-modal';
 import { AiFillDelete, AiOutlineDelete } from 'react-icons/ai';
 import useModal from './context/ModalContext/ModalState';
 import DeleteChatModalContent from './components/DeleteChatModalContent';
-
+import { ThreeDots } from 'react-loader-spinner';
 function App() {
   const { loading } = useAuth();
   const { isDark } = useDarkMode();
@@ -44,12 +44,12 @@ function App() {
   return (
     <div className="App">
       {loading ? (
-        <div className="h-screen w-screen flex items-center justify-center">
-          <Spinner
-            size="16"
-            fill="green-dark"
-            // className="h-16 w-16 fill-green-light text-green-light "
-          />
+        <div
+          className={`h-screen w-screen flex items-center justify-center ${
+            isDark ? 'bg-dark-100' : 'bg-gray-light'
+          }`}
+        >
+          <ThreeDots color="#3cc6b7" height={50} width={50} />
         </div>
       ) : (
         <Routes>

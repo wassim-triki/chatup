@@ -22,7 +22,9 @@ const SearchResultItem = ({ _id, picture, firstName, lastName, email }) => {
     }
   };
   return (
-    <div className={`flex p-2 cursor-pointer gap-4 rounded-2xl items-center `}>
+    <div
+      className={`flex p-2 cursor-pointer gap-4 rounded-2xl items-center self-stretch `}
+    >
       <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
         <img className="object-cover w-12 h-12 object-center" src={picture} />
       </div>
