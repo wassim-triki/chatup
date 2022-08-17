@@ -24,6 +24,7 @@ const capitalize = (str) => {
   }
 };
 const removeExtraSpaces = (str) => str.replace(/\s\s+/g, ' ');
+
 module.exports.createUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email.toLowerCase() });
@@ -47,7 +48,7 @@ module.exports.createUser = async (req, res) => {
     ).trim();
     userData.lastName = removeExtraSpaces(capitalize(userData.lastName)).trim();
     const response = await User.create(userData);
-    console.log('User created: ', response);
+    // console.log('User created: ', response);
     res.status(201).json({ message: 'Signed up' });
   } catch (err) {
     return res.status(409).json({ message: err.message });

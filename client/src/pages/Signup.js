@@ -97,8 +97,7 @@ const Signup = () => {
       toast(resp.data.message, { type: 'success' });
       navigate('/signin');
     } catch (err) {
-      console.log(err);
-      const { message } = err.response?.data;
+      const { message } = err.response.data || err || 'Error.';
       toast(message, { type: 'error' });
       console.log(err);
     } finally {

@@ -67,8 +67,8 @@ const Signin = () => {
       toast(resp.data.message, { type: 'success' });
       navigate('/');
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Error';
-      toast(msg, { type: 'error' });
+      const { message } = err.response.data || err || 'Error.';
+      toast(message, { type: 'error' });
       console.log(err);
     } finally {
       setLoading(false);

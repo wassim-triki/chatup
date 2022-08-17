@@ -30,9 +30,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use('/api/auth/', authRoute);
+app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/chat', chatsRoute);
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV != 'development' && !req.secure) {
+    return res.redirect('https://' + req.headers.host + req.url);
+  }
+  next();
+});
 
 // app.use((req, res, next) => {
 //   return res.status(404).json({ message: 'Bad request.' });
