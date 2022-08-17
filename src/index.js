@@ -33,11 +33,11 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/chat', chatsRoute);
+app.enable('trust proxy');
 app.use((req, res, next) => {
-  if (process.env.NODE_ENV != 'development' && !req.secure) {
-    return res.redirect('https://' + req.headers.host + req.url);
-  }
-  next();
+  console.log('req.headers.host:', req.headers.host);
+  console.log('req.url:', req.url);
+  req.secure ? next() : res.redirect('https://' + req.headers.host + req.url);
 });
 
 // app.use((req, res, next) => {
