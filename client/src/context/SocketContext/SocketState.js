@@ -10,6 +10,7 @@ export const SocketProvider = ({ children }) => {
       withCredentials: true,
     })
   );
+
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected to Socket');
