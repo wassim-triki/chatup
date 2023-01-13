@@ -47,9 +47,9 @@ app.use((req, res, next) => {
   req.secure ? next() : res.redirect('https://' + req.headers.host + req.url);
 });
 
-app.use((req, res, next) => {
-  return res.status(404).json({ message: 'Bad request.' });
-});
+// app.use((req, res, next) => {
+//   return res.status(404).json({ message: 'Bad request.' });
+// });
 // db connection
 connection();
 
