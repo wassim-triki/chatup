@@ -19,9 +19,8 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 const whitelist = [
+  'https://chatup-production.up.railway.app',
   'http://localhost:3000',
-  'https://app-chatup.herokuapp.com',
-  'https://chat-up-1.herokuapp.com',
 ];
 const corsOptions = {
   origin: function (origin, callback) {
