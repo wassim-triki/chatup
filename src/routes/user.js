@@ -12,7 +12,7 @@ const {
 const authentication = require('../middlewares/authentication');
 
 // router.get('/', getAllUsers);
-router.get('/', authentication, searchUsers);
+router.get('/', searchUsers);
 router.put('/deleteAllRequests', authentication, deleteAllRequests);
 router.put('/deleteAllContacts', authentication, deleteAllContacts);
 router.get('/contacts', authentication, getContacts);

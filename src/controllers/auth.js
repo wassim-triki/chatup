@@ -27,6 +27,7 @@ const removeExtraSpaces = (str) => str.replace(/\s\s+/g, ' ');
 
 module.exports.createUser = async (req, res) => {
   try {
+    console.log(req.body);
     const user = await User.findOne({ email: req.body.email.toLowerCase() });
     if (user) {
       throw new Error('Email Already In Use.');
@@ -58,6 +59,7 @@ const signJWT = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: EXPIRES_IN });
 
 module.exports.signinUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
   const user = await User.findOne({ email: email.toLowerCase() }).populate(
     'receivedRequests'
   );

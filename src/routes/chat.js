@@ -13,13 +13,13 @@ const {
 } = require('../controllers/chat');
 const authentication = require('../middlewares/authentication');
 const { Chat } = require('../models/chat');
+const { User } = require('../models/user');
 const router = express.Router();
 
 router.get('/myChats', authentication, myChats);
 router.post('/sendRequest', authentication, sendRequest);
 router.post('/acceptRequest', authentication, acceptRequest);
 router.post('/declineRequest', authentication, declineRequest);
-
 router.post('/sendMessage', authentication, sendMessage);
 router.get('/:chatId', authentication, openChat);
 router.post('/deleteChat', authentication, deleteChat);
