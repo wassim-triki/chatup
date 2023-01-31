@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://chatup-production.up.railway.app/" target='_blank'><img src="https://res.cloudinary.com/dnhlgfdi2/image/upload/v1659528475/chatup/logo192_vcaaxf.png" alt="ChatUp" width="200" target="_blank"></a>
+  <a href="https://chatup-production.up.railway.app/" target='_blank'><img src="https://res.cloudinary.com/dnhlgfdi2/image/upload/v1675155876/chatup/logo192_bvcemy.png" alt="ChatUp" width="200" target="_blank"></a>
   <br>
   ChatUp
   <br>
