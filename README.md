@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://app-chatup.herokuapp.com/"><img src="https://res.cloudinary.com/dnhlgfdi2/image/upload/v1659528475/chatup/logo192_vcaaxf.png" alt="ChatUp" width="200" target="_blank"></a>
+  <a href="https://chatup-production.up.railway.app/"><img src="https://res.cloudinary.com/dnhlgfdi2/image/upload/v1659528475/chatup/logo192_vcaaxf.png" alt="ChatUp" width="200" target="_blank"></a>
   <br>
   ChatUp
   <br>
