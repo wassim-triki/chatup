@@ -1,12 +1,12 @@
 <h1 align="center">
   <br>
-  <a href="https://chatup-production.up.railway.app/"><img src="https://res.cloudinary.com/dnhlgfdi2/image/upload/v1659528475/chatup/logo192_vcaaxf.png" alt="ChatUp" width="200" target="_blank"></a>
+  <a href="https://chatup-production.up.railway.app/" target='_blank'><img src="https://res.cloudinary.com/dnhlgfdi2/image/upload/v1659528475/chatup/logo192_vcaaxf.png" alt="ChatUp" width="200" target="_blank"></a>
   <br>
   ChatUp
   <br>
 </h1>
 <p align="center">
-<a href="https://chat-up-1.herokuapp.com/" target='_blank'>Online App Link</a>
+<a href="https://chatup-production.up.railway.app/" target='_blank'>Online App Link</a>
 </p>
 
 <h4 align="center">A fullstack real-time chat application built with MERN and socket.io</h4>
